@@ -1,0 +1,6 @@
+build/
+texpackr
+*.sw*
+*.sw*
+*.o
+*.dSYM
