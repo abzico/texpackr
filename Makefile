@@ -1,14 +1,14 @@
 SRCDIR := src
-INCDIR := include
 BUILDDIR := build
 TESTDIR := test
 
 CC := gcc
-override CFLAGS += -std=c99 -g -Wall -I$(INCDIR)
-LFLAGS =
+override CFLAGS += -std=c99 -g -Wall -I$(SRCDIR)
+LFLAGS = -lpng -lz
 
 DEPS :=	\
 	$(BUILDDIR)/texpackr_lib.o	\
+	$(BUILDDIR)/png_util.o		\
 	$(BUILDDIR)/texpackr_cli.o	\
 	$(BUILDDIR)/texpackr_test.o
 
@@ -19,16 +19,19 @@ all: mkbuilddir $(DEPS) texpackr test
 mkbuilddir: 
 	@mkdir -p $(BUILDDIR)
 
-$(BUILDDIR)/texpackr_lib.o: $(SRCDIR)/texpackr_lib.c $(INCDIR)/texpackr.h
+$(BUILDDIR)/texpackr_lib.o: $(SRCDIR)/texpackr_lib.c $(SRCDIR)/texpackr.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(BUILDDIR)/texpackr_cli.o: $(SRCDIR)/texpackr_cli.c $(INCDIR)/texpackr.h
+$(BUILDDIR)/png_util.o: $(SRCDIR)/png_util.c $(SRCDIR)/png_util.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(BUILDDIR)/texpackr_test.o: $(TESTDIR)/texpackr_test.c $(INCDIR)/texpackr.h
+$(BUILDDIR)/texpackr_cli.o: $(SRCDIR)/texpackr_cli.c $(SRCDIR)/texpackr.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-texpackr: $(BUILDDIR)/texpackr_lib.o $(BUILDDIR)/texpackr_cli.o
+$(BUILDDIR)/texpackr_test.o: $(TESTDIR)/texpackr_test.c $(SRCDIR)/texpackr.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+texpackr: $(BUILDDIR)/texpackr_lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/texpackr_cli.o
 	$(CC) $(LFLAGS) $^ -o $@
 
 test: mkbuilddir $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/texpackr_lib.o
