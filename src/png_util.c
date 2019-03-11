@@ -2,6 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
+ * define debugging information to spit out from libpng
+ * higher number, more info will be given out
+ * valid value is 0 to 3
+ */
+#define PNG_DEBUG 3
+
 void texpackr_free_image_data(png_bytepp data, int height)
 {
   for (int y=0; y<height; ++y)
