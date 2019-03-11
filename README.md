@@ -1,6 +1,12 @@
 # texpackr
 Textures packer into texture atlas, spit out atlas, and meta data. Aim to support .png, and .dds
 
+# Build
+
+* `make` - to build all included library (as object files), cli (command line program), and test program
+* `make test` - to build library (as object files), and test program
+* `make clean` - clean generated files and directory (`build` directory)
+
 # TODO
 
 - [ ] packing algorithm for multiple images into a single texture atlas
