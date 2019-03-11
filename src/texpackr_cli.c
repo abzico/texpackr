@@ -1,8 +1,8 @@
 #include <stdio.h>
-#include "texpackr_lib.h"
+#include "texpackr.h"
 
 int main(int argc, char** argv)
 {
-	printf("texpacker ...\n");
+	printf("hello packr\n");
 	return 0;
 }
