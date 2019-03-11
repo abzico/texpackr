@@ -1,5 +1,6 @@
 build/
 texpackr
+texpackr_test
 *.sw*
 *.sw*
 *.o
