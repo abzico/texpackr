@@ -11,6 +11,7 @@ Textures packer into texture atlas, spit out atlas, and meta data. Aim to suppor
 - [ ] save into a texture atlas as .dds image
 - [ ] save meta data into file (file extension will be decided later)
 - [ ] C API
+- [ ] ability to scale input images then output it
 
 # License
 MIT, ABZI
