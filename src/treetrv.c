@@ -14,7 +14,7 @@ void texpackr_free_all_nodes(texpackr_node* n)
 		n->child[0] = NULL;
 		n->child[1] = NULL;
 
-		printf("n rect: %d, %d, %d, %d\n", n->rc.left, n->rc.top, n->rc.right, n->rc.bottom);
+		printf("free n with rect: %d, %d, %d, %d\n", n->rc.left, n->rc.top, n->rc.right, n->rc.bottom);
 
 		free(n);
 		n = NULL;
