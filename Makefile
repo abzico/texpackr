@@ -35,11 +35,11 @@ $(BUILDDIR)/texpackr_test.o: $(TESTDIR)/texpackr_test.c $(SRCDIR)/texpackr.h
 $(BUILDDIR)/treetrv.o: $(SRCDIR)/treetrv.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-texpackr: $(BUILDDIR)/texpackr_lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/texpackr_cli.o
+texpackr: $(BUILDDIR)/texpackr_lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/texpackr_cli.o $(BUILDDIR)/treetrv.o
 	$(CC) $(LFLAGS) $^ -o $@
 
-test: mkbuilddir $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/texpackr_lib.o
-	$(CC) $(LFLAGS) $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/texpackr_lib.o -o texpackr_test
+test: mkbuilddir $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/texpackr_lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/treetrv.o
+	$(CC) $(LFLAGS) $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/texpackr_lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/treetrv.o -o texpackr_test
 
 clean:
 	rm -rf $(BUILDDIR)
