@@ -10,7 +10,8 @@ DEPS :=	\
 	$(BUILDDIR)/texpackr_lib.o	\
 	$(BUILDDIR)/png_util.o		\
 	$(BUILDDIR)/texpackr_cli.o	\
-	$(BUILDDIR)/texpackr_test.o
+	$(BUILDDIR)/texpackr_test.o	\
+	$(BUILDDIR)/treetrv.o
 
 .PHONY: all mkbuilddir clean lib
 
@@ -29,6 +30,9 @@ $(BUILDDIR)/texpackr_cli.o: $(SRCDIR)/texpackr_cli.c $(SRCDIR)/texpackr.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(BUILDDIR)/texpackr_test.o: $(TESTDIR)/texpackr_test.c $(SRCDIR)/texpackr.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(BUILDDIR)/treetrv.o: $(SRCDIR)/treetrv.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 texpackr: $(BUILDDIR)/texpackr_lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/texpackr_cli.o
