@@ -123,52 +123,52 @@ png_bytepp texpackr_read_png_file(const char* file_name, int* rst_rowbytes, int*
   int channels = png_get_channels(png_ptr, info_ptr);
   int rowbytes = png_get_rowbytes(png_ptr, info_ptr);
 
-  printf("width = %d\n", width);
-  printf("height = %d\n", height);
-  printf("bit_depth = %d\n", bit_depth);
+  printf("[PNG] width = %d\n", width);
+  printf("[PNG] height = %d\n", height);
+  printf("[PNG] bit_depth = %d\n", bit_depth);
   switch (color_type)
   {
     case PNG_COLOR_TYPE_GRAY:
-      printf("color type = 'PNG_COLOR_TYPE_GRAY' (bit depths 1, 2, 4, 8, 16)\n");
+      printf("[PNG] color type = 'PNG_COLOR_TYPE_GRAY' (bit depths 1, 2, 4, 8, 16)\n");
       break;
     case PNG_COLOR_TYPE_GRAY_ALPHA:
-      printf("color type = 'PNG_COLOR_TYPE_GRAY_ALPHA' (bit depths 8, 16)\n");
+      printf("[PNG] color type = 'PNG_COLOR_TYPE_GRAY_ALPHA' (bit depths 8, 16)\n");
       break;
     case PNG_COLOR_TYPE_PALETTE:
-      printf("color type = 'PNG_COLOR_TYPE_PALETTE' (bit depths 1, 2, 4, 8)\n");
+      printf("[PNG] color type = 'PNG_COLOR_TYPE_PALETTE' (bit depths 1, 2, 4, 8)\n");
       break;
     case PNG_COLOR_TYPE_RGB:
-      printf("color type = 'PNG_COLOR_TYPE_RGB' (bit depths 8, 16)\n");
+      printf("[PNG] color type = 'PNG_COLOR_TYPE_RGB' (bit depths 8, 16)\n");
       break;
     case PNG_COLOR_TYPE_RGB_ALPHA:
-      printf("color type = 'PNG_COLOR_TYPE_RGB_ALPHA' (bit depths 8, 16)\n");
+      printf("[PNG] color type = 'PNG_COLOR_TYPE_RGB_ALPHA' (bit depths 8, 16)\n");
       break;
   }
   switch (interlace_type)
   {
     case PNG_INTERLACE_NONE:
-      printf("interlace type = none\n");
+      printf("[PNG] interlace type = none\n");
       break;
     case PNG_INTERLACE_ADAM7:
-      printf("interlace type = ADAM7\n");
+      printf("[PNG] interlace type = ADAM7\n");
       break;
   }
   switch (channels)
   {
     case 1:
-      printf("channels = %d (GRAY, PALETTE)\n", channels);
+      printf("[PNG] channels = %d (GRAY, PALETTE)\n", channels);
       break;
     case 2:
-      printf("channels = %d (GRAY_ALPHA)\n", channels);
+      printf("[PNG] channels = %d (GRAY_ALPHA)\n", channels);
       break;
     case 3:
-      printf("channels = %d (RGB)\n", channels);
+      printf("[PNG] channels = %d (RGB)\n", channels);
       break;
     case 4:
-      printf("channels = %d (RGB_ALPHA or RGB + filter byte)\n", channels);
+      printf("[PNG] channels = %d (RGB_ALPHA or RGB + filter byte)\n", channels);
       break;
   }
-  printf("rowbytes = %d\n", rowbytes);
+  printf("[PNG] rowbytes = %d\n", rowbytes);
 
   // allocate enough and continous memory space to whole entire image
   // note: i think we could allocate continous memory space that result in just png_bytep
