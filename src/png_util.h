@@ -14,6 +14,8 @@ extern void texpackr_free_png_image_data(png_bytepp data, int height);
 
 /*
  * Read png file.
+ * It support reading both 3 (without alpha), and 4 (with alpha) channels of png file by
+ * converting to 4 channels RGBA png image.
  *
  * \param file_name target file name to read from
  * \param rst_rowbytes to be filled in for result of rowbytes of image

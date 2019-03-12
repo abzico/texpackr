@@ -182,6 +182,42 @@ png_bytepp texpackr_read_png_file(const char* file_name, int* rst_rowbytes, int*
   // read image data
   png_read_image(png_ptr, row_ptr);
 
+	// convert to 4 channels (RGBA) if channels is less than 4
+	// TODO: Add support for 1 and 2 channels
+	if (channels == 3)
+	{
+		printf("[PNG] image has %d channels, we need to convert to 4 channels\n", channels);
+		png_bytepp convt_row_ptr = (png_bytepp)malloc(sizeof(png_bytep) * height);
+		// 4 bytes per pixel
+		int rowbs = width * 4;
+		for (int y=0; y<height; ++y)
+		{
+			convt_row_ptr[y] = (png_bytep)malloc(rowbs);
+		}
+
+		// copy from old image data to this new, with 0xFF as alpha component
+		for (int y=0; y<height; ++y)
+		{
+			png_bytep dst_row = convt_row_ptr[y];
+			png_bytep src_row = row_ptr[y];
+
+			for (int x=0; x<width; ++x)
+			{
+				png_bytep dst_pixel = &dst_row[x*4];
+				png_bytep src_pixel = &src_row[x*3];
+				dst_pixel[0] = src_pixel[0];
+				dst_pixel[1] = src_pixel[1];
+				dst_pixel[2] = src_pixel[2];
+				dst_pixel[3] = 0xFF;
+			}
+		}
+		
+		// free source image data
+		texpackr_free_png_image_data(row_ptr, height);
+		// swap pointer for returning from this function
+		row_ptr = convt_row_ptr;
+	}
+
   // clear png resource
   png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
 
