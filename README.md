@@ -18,6 +18,7 @@ Textures packer into texture atlas, spit out atlas, and meta data. Aim to suppor
 - [ ] save meta data into file (file extension will be decided later)
 - [ ] C API
 - [ ] ability to scale input images then output it
+- [ ] cut out alpha pixels to maximize capacity of sprite storage in result spritesheet
 
 # License
 MIT, ABZI
