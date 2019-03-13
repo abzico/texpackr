@@ -85,6 +85,23 @@ void texpackr_sheet_free(texpackr_sheet* s)
 
 bool texpackr_sheet_batch_imgs(texpackr_sheet* s, const char** img_filenames, unsigned int image_count)
 {
+	// loop through all of input image filenames
+	for (int i=0; i<image_count; ++i)
+	{
+		const char* filename = *(img_filenames + i);
+
+		bool result = texpackr_sheet_insert_img(s, filename);
+		// return immediately if failed
+		if (!result)
+		{
+			fprintf(stderr, "[BATCH INSERT] failed in inserting %s\n", filename);
+			return false;
+		}
+		else
+		{
+			printf("[BATCH INSERT] succeeded inserting %s\n", filename);
+		}
+	}
 	return true;
 }
 
@@ -287,5 +304,6 @@ bool texpackr_sheet_export(texpackr_sheet* s, const char* sheet_filename, const 
 
 void texpackr_sheet_clear(texpackr_sheet* s)
 {
-
+	// just call free internals
+	texpackr_sheet_free_internals(s);
 }
