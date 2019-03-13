@@ -52,6 +52,17 @@ typedef struct
 	/// (internally used)
 	struct texpackr_node* node;
 
+	/// (internally used)
+	/// opaque pointer, behind the scene it works with libpng's png_bytepp
+	///
+	/// sheet maintains this during creation phase
+	/// to reduce memory usage and a need to hold each sprite's image data.
+	/// Each sprite's image data will be put into this attribute each time
+	/// it's inserted.
+	///
+	/// pixel format is RGBA 8-bit per channel.
+	void* pixels;
+
 } texpackr_sheet;
 
 /// API for usage while building a sheet + meta file

@@ -28,6 +28,10 @@ void texpackr_sheet_init_defaults(texpackr_sheet* s, int max_width, int max_heig
 {
 	s->size.x = max_width;
 	s->size.y = max_height;
+	// create enough memory space to hold png image data
+	// note: save as void* to hide the implementation detail from users,
+	// otherwise we need to include png.h in header file which is not nice!
+	s->pixels = (void*)texpackr_allocate_png_rgba_image_space(max_width, max_height);
 
 	s->sprite_count = 0;
 	s->sprites = NULL;
@@ -67,6 +71,13 @@ void texpackr_sheet_free_internals(texpackr_sheet* s)
 	// free list of sprites
 	free(s->sprites);
 	s->sprites = NULL;
+
+	// free its image data
+	if (s->pixels != NULL)
+	{
+		texpackr_free_png_image_data((png_bytepp)s->pixels, s->size.y);
+		s->pixels = NULL;
+	}
 
 	// traverse to free all nodes
 	texpackr_free_all_nodes(s->node);
@@ -175,6 +186,31 @@ bool texpackr_sheet_insert_img(texpackr_sheet* s, const char* image_filename)
 
 		// image id is the index+1 to represent it
 		node->image_id = s->sprite_count;
+
+		// get pointer to maintained pixels of sheet
+		png_bytepp maintained_pixels = (png_bytepp)s->pixels;
+
+		int offset_x = sprite_ptr->offset.x;
+		int offset_y = sprite_ptr->offset.y;
+
+		// make sure input image is smaller than our sheet image
+		// note: ignore checking here
+		for (int y=0; y < img_height; ++y)
+		{
+			png_bytep src_row_ptr = image_data[y];
+			png_bytep dst_row_ptr = maintained_pixels[y+offset_y];
+
+			for (int x=0; x < img_width; ++x)
+			{
+				png_bytep src_pixel = &src_row_ptr[x*4];
+				png_bytep dst_pixel = &dst_row_ptr[(x+offset_x)*4];
+
+				dst_pixel[0] = src_pixel[0];
+				dst_pixel[1] = src_pixel[1];
+				dst_pixel[2] = src_pixel[2];
+				dst_pixel[3] = src_pixel[3];
+			}
+		}
 
 		// free image data
 		texpackr_free_png_image_data(image_data, img_height);
