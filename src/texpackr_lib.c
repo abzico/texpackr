@@ -172,7 +172,7 @@ bool texpackr_sheet_insert_img(texpackr_sheet* s, const char* image_filename)
 		// set image's meta data into sprite
 		texpackr_sprite* sprite_ptr = s->sprites + s->sprite_count;
 		// - filename
-		sprite_ptr->filename = malloc(sizeof(char) * strlen(image_filename));
+		sprite_ptr->filename = calloc(1, sizeof(char) * (strlen(image_filename) + 1));
 		strncpy(sprite_ptr->filename, image_filename, strlen(image_filename));
 		// - offset
 		sprite_ptr->offset.x = node->rc.left;
