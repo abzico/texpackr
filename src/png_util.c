@@ -1,4 +1,5 @@
 #include "png_util.h"
+#include "texpackr_log.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -36,7 +37,7 @@ png_bytepp texpackr_read_png_file(const char* file_name, int* rst_rowbytes, int*
   const int cmp_number = 8;
   if (fread(header, 1, cmp_number, fp) != cmp_number)
   {
-    fprintf(stderr, "read %s file error", file_name);
+    TEXPACKR_ELOG("read %s file error", file_name)
 
     // close file
     fclose(fp);
@@ -48,7 +49,7 @@ png_bytepp texpackr_read_png_file(const char* file_name, int* rst_rowbytes, int*
   if (png_sig_cmp(header, 0, cmp_number) != 0)
   {
     // it's not PNG file
-    fprintf(stderr, "%s file is not recognized as png file\n", file_name);
+    TEXPACKR_ELOG("%s file is not recognized as png file\n", file_name)
 
     // close file
     fclose(fp);
@@ -61,7 +62,7 @@ png_bytepp texpackr_read_png_file(const char* file_name, int* rst_rowbytes, int*
   if (png_ptr == NULL)
   {
     // cannot create png structure
-    fprintf(stderr, "cannot create png structure\n");
+    TEXPACKR_ELOG("cannot create png structure\n")
 
     // close file
     fclose(fp);
@@ -73,7 +74,7 @@ png_bytepp texpackr_read_png_file(const char* file_name, int* rst_rowbytes, int*
   png_infop info_ptr = png_create_info_struct(png_ptr);
   if (info_ptr == NULL)
   {
-    fprintf(stderr, "cannot create png info structure\n");
+    TEXPACKR_ELOG("cannot create png info structure\n")
 
     // clear png resource
     png_destroy_read_struct(&png_ptr, (png_infopp)NULL, (png_infopp)NULL);
@@ -91,7 +92,7 @@ png_bytepp texpackr_read_png_file(const char* file_name, int* rst_rowbytes, int*
   /* set jmp */ \
   if (setjmp(png_jmpbuf(png_ptr)))  \
   { \
-    fprintf(stderr, "error png's set jmp for read\n"); \
+    TEXPACKR_ELOG("error png's set jmp for read\n") \
                                               \
     /* clear png resource */                  \
     png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);   \
@@ -123,52 +124,52 @@ png_bytepp texpackr_read_png_file(const char* file_name, int* rst_rowbytes, int*
   int channels = png_get_channels(png_ptr, info_ptr);
   int rowbytes = png_get_rowbytes(png_ptr, info_ptr);
 
-  printf("[PNG] width = %d\n", width);
-  printf("[PNG] height = %d\n", height);
-  printf("[PNG] bit_depth = %d\n", bit_depth);
+  TEXPACKR_LOG("[PNG] width = %d\n", width)
+  TEXPACKR_LOG("[PNG] height = %d\n", height)
+  TEXPACKR_LOG("[PNG] bit_depth = %d\n", bit_depth)
   switch (color_type)
   {
     case PNG_COLOR_TYPE_GRAY:
-      printf("[PNG] color type = 'PNG_COLOR_TYPE_GRAY' (bit depths 1, 2, 4, 8, 16)\n");
+      TEXPACKR_LOG("[PNG] color type = 'PNG_COLOR_TYPE_GRAY' (bit depths 1, 2, 4, 8, 16)\n")
       break;
     case PNG_COLOR_TYPE_GRAY_ALPHA:
-      printf("[PNG] color type = 'PNG_COLOR_TYPE_GRAY_ALPHA' (bit depths 8, 16)\n");
+      TEXPACKR_LOG("[PNG] color type = 'PNG_COLOR_TYPE_GRAY_ALPHA' (bit depths 8, 16)\n")
       break;
     case PNG_COLOR_TYPE_PALETTE:
-      printf("[PNG] color type = 'PNG_COLOR_TYPE_PALETTE' (bit depths 1, 2, 4, 8)\n");
+      TEXPACKR_LOG("[PNG] color type = 'PNG_COLOR_TYPE_PALETTE' (bit depths 1, 2, 4, 8)\n")
       break;
     case PNG_COLOR_TYPE_RGB:
-      printf("[PNG] color type = 'PNG_COLOR_TYPE_RGB' (bit depths 8, 16)\n");
+      TEXPACKR_LOG("[PNG] color type = 'PNG_COLOR_TYPE_RGB' (bit depths 8, 16)\n")
       break;
     case PNG_COLOR_TYPE_RGB_ALPHA:
-      printf("[PNG] color type = 'PNG_COLOR_TYPE_RGB_ALPHA' (bit depths 8, 16)\n");
+      TEXPACKR_LOG("[PNG] color type = 'PNG_COLOR_TYPE_RGB_ALPHA' (bit depths 8, 16)\n")
       break;
   }
   switch (interlace_type)
   {
     case PNG_INTERLACE_NONE:
-      printf("[PNG] interlace type = none\n");
+      TEXPACKR_LOG("[PNG] interlace type = none\n")
       break;
     case PNG_INTERLACE_ADAM7:
-      printf("[PNG] interlace type = ADAM7\n");
+      TEXPACKR_LOG("[PNG] interlace type = ADAM7\n")
       break;
   }
   switch (channels)
   {
     case 1:
-      printf("[PNG] channels = %d (GRAY, PALETTE)\n", channels);
+      TEXPACKR_LOG("[PNG] channels = %d (GRAY, PALETTE)\n", channels)
       break;
     case 2:
-      printf("[PNG] channels = %d (GRAY_ALPHA)\n", channels);
+      TEXPACKR_LOG("[PNG] channels = %d (GRAY_ALPHA)\n", channels)
       break;
     case 3:
-      printf("[PNG] channels = %d (RGB)\n", channels);
+      TEXPACKR_LOG("[PNG] channels = %d (RGB)\n", channels)
       break;
     case 4:
-      printf("[PNG] channels = %d (RGB_ALPHA or RGB + filter byte)\n", channels);
+      TEXPACKR_LOG("[PNG] channels = %d (RGB_ALPHA or RGB + filter byte)\n", channels)
       break;
   }
-  printf("[PNG] rowbytes = %d\n", rowbytes);
+  TEXPACKR_LOG("[PNG] rowbytes = %d\n", rowbytes)
 
   // allocate enough and continous memory space to whole entire image
   // note: i think we could allocate continous memory space that result in just png_bytep
@@ -186,7 +187,7 @@ png_bytepp texpackr_read_png_file(const char* file_name, int* rst_rowbytes, int*
 	// TODO: Add support for 1 and 2 channels
 	if (channels == 3)
 	{
-		printf("[PNG] image has %d channels, we need to convert to 4 channels\n", channels);
+		TEXPACKR_LOG("[PNG] image has %d channels, we need to convert to 4 channels\n", channels)
 		png_bytepp convt_row_ptr = (png_bytepp)malloc(sizeof(png_bytep) * height);
 		// 4 bytes per pixel
 		int rowbs = width * 4;
@@ -255,7 +256,7 @@ bool texpackr_write_png_file(const char* file_name, const png_bytepp data, int w
   if (png_ptr == NULL)
   {
     // cannot create png structure
-    fprintf(stderr, "cannot create png structure\n");
+    TEXPACKR_ELOG("cannot create png structure\n")
 
     // close file
     fclose(fp);
@@ -267,7 +268,7 @@ bool texpackr_write_png_file(const char* file_name, const png_bytepp data, int w
   png_infop info_ptr = png_create_info_struct(png_ptr);
   if (info_ptr == NULL)
   {
-    fprintf(stderr, "cannot create png info structure\n");
+    TEXPACKR_ELOG("cannot create png info structure\n")
 
     // clear png resource
     png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
@@ -285,7 +286,7 @@ bool texpackr_write_png_file(const char* file_name, const png_bytepp data, int w
   /* set jmp */  \
   if (setjmp(png_jmpbuf(png_ptr)))  \
   { \
-    fprintf(stderr, "error png's set jmp for write\n"); \
+    TEXPACKR_ELOG("error png's set jmp for write\n") \
                                               \
     /* clear png resource */                  \
     png_destroy_write_struct(&png_ptr, &info_ptr);   \

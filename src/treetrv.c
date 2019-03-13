@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <png.h>
 #include "texpackr_internal.h"
+#include "texpackr_log.h"
 #include "png_util.h"
 
 void texpackr_free_all_nodes(texpackr_node* n)
@@ -14,7 +15,7 @@ void texpackr_free_all_nodes(texpackr_node* n)
 		n->child[0] = NULL;
 		n->child[1] = NULL;
 
-		printf("free n with rect: %d, %d, %d, %d\n", n->rc.left, n->rc.top, n->rc.right, n->rc.bottom);
+		TEXPACKR_LOG("free n with rect: %d, %d, %d, %d\n", n->rc.left, n->rc.top, n->rc.right, n->rc.bottom)
 
 		free(n);
 		n = NULL;
