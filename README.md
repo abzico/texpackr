@@ -13,16 +13,19 @@ To **not** have texpackr spits out debugging log along the way, specify `-DTEXPA
 
 # TODO
 
+## Phase I
 - [x] packing algorithm for multiple images into a single texture atlas
-- [x] read .png image as input
-- [ ] read .jpg image as input
-- [ ] save into a texture atlas as .tga file (purposely for debugging as .tga is easy to work with)
+- [x] read .png (support 1-4 channels: gray, gray-alpha, RGB, and RGBA) image as input
 - [ ] save into a texture atlas as .png image
+- [ ] read .jpg image as input
 - [ ] save into a texture atlas as .dds image
 - [ ] save meta data into file (file extension will be decided later)
 - [x] C API
+
+## Phase II
 - [ ] ability to scale input images then output it
 - [ ] cut out alpha pixels to maximize capacity of sprite storage in result spritesheet
+- [ ] spacing between sprites packed in sheet
 
 # License
 MIT, ABZI
