@@ -132,7 +132,7 @@ extern bool texpackr_sheet_export(texpackr_sheet* s, const char* sheet_filename,
  * After this call, its sprites, internal states, and other attributs will be clear
  * and reset back to the initial state.
  *
- * It's equivalent to the call texpackr_sheet_free_internals().
+ * It's equivalent to the call texpackr_sheet_free_internals() then follows by texpackr_init_defaults().
  */
 extern void texpackr_sheet_clear(texpackr_sheet* s);
 

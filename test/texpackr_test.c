@@ -7,10 +7,17 @@
 
 void print_all_sprites(texpackr_sheet* s)
 {
-	for (int i=0; i<s->sprite_count; i++)
+	if (s->sprite_count == 0)
 	{
-		texpackr_sprite* sprite_ptr = s->sprites + i;
-		printf("sprite[%d] filename: %s, offset: %d,%d, size: %d,%d\n", i, sprite_ptr->filename, sprite_ptr->offset.x, sprite_ptr->offset.y, sprite_ptr->size.x, sprite_ptr->size.y);
+		printf("there is no sprites in the sheet\n");
+	}
+	else
+	{
+		for (int i=0; i<s->sprite_count; i++)
+		{
+			texpackr_sprite* sprite_ptr = s->sprites + i;
+			printf("sprite[%d] filename: %s, offset: %d,%d, size: %d,%d\n", i, sprite_ptr->filename, sprite_ptr->offset.x, sprite_ptr->offset.y, sprite_ptr->size.x, sprite_ptr->size.y);
+		}
 	}
 }
 
@@ -19,6 +26,7 @@ int main (int argc, char** argv)
 	bool result = false;
 	texpackr_sheet* sheet = texpackr_sheet_new(SHEET_MAX_WIDTH, SHEET_MAX_HEIGHT);
 
+	// test individual insert
 	result = texpackr_sheet_insert_img(sheet, "images/1.png");
 	if (!result)
 		fprintf(stderr, "Error inserting image 1.png\n");
@@ -47,6 +55,11 @@ int main (int argc, char** argv)
 	if (!result)
 		fprintf(stderr, "Error inserting image 7.png\n");
 
+	print_all_sprites(sheet);
+
+	// clear then we gonna test batch insert
+	printf("clear sheet\n");
+	texpackr_sheet_clear(sheet);
 	print_all_sprites(sheet);
 
 	texpackr_sheet_free(sheet);
