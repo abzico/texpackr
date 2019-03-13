@@ -56,9 +56,9 @@ int main (int argc, char** argv)
 	if (!result)
 		fprintf(stderr, "Error inserting image 7.png\n");
 
-	result = texpackr_sheet_insert_img(sheet, "images/8.png");	// should be failed
+	result = texpackr_sheet_insert_img(sheet, "images/9.png");
 	if (!result)
-		fprintf(stderr, "Error inserting image 8.png\n");
+		fprintf(stderr, "Error inserting image 9.png\n");
 
 	print_all_sprites(sheet);
 
@@ -77,7 +77,7 @@ int main (int argc, char** argv)
 		"images/5.png",
 		"images/6.png",
 		"images/7.png",
-		"images/8.png"	// should be failed
+		"images/8.png"
 	};
 	// batch insert
 	texpackr_sheet_batch_imgs(sheet, (const char**)&batch_img_filenames, BATCH_IMG_SIZE);
