@@ -7,9 +7,9 @@ Textures packer into texture atlas, spit out atlas, and meta data. Aim to suppor
 * `make test` - to build library (as object files), and test program
 * `make clean` - clean generated files and directory (`build` directory)
 
-To have texpackr spits out debugging log along the way, build it with
+To **not** have texpackr spits out debugging log along the way, specify `-DTEXPACKR_NDEUB`
 
-* `make CFLAGS=-DTEXPACKR_DEBUG` or `make test CFLAGS=-DTEXPACKR_DEBUG`
+* `make CFLAGS=-DTEXPACKR_NDEBUG` or `make test CFLAGS=-DTEXPACKR_NDEBUG`
 
 # TODO
 
