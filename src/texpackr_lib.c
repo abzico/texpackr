@@ -121,10 +121,7 @@ bool texpackr_sheet_insert_img(texpackr_sheet* s, const char* image_filename)
 	texpackr_node* node = insert_img(s->node, img_width, img_height, img_rowbytes, image_data);
 	if (node != NULL)
 	{
-		fprintf(stderr, "INSERT %s succeeded\n", image_filename);
 
-		// TODO: Change image id to something meaninful here
-		node->image_id = 1;
 		// insert a new sprite data for later query and one-time writing into the file
 		if (s->sprites == NULL)
 		{
@@ -141,15 +138,20 @@ bool texpackr_sheet_insert_img(texpackr_sheet* s, const char* image_filename)
 		if (s->sprite_count >= s->msprite_count)
 		{
 			const int increment_size = 1;
-			s->sprites = realloc(s->sprites, sizeof(texpackr_sprite) * (s->msprite_count+increment_size));
-			memset(s->sprites + s->sprite_count, 0, sizeof(texpackr_sprite) * increment_size);
-			if (s->sprites == NULL)
+			texpackr_sprite* sprites_ptr = realloc(s->sprites, sizeof(texpackr_sprite) * (s->msprite_count+increment_size));
+
+			if (sprites_ptr == NULL)
 			{
-				// TODO: clear all memory and resource here
+				// no need to clear resource here as original pointer is left intact
+				// after call to realloc()
 				return false;
 			}
 			else
 			{
+				// set back pointer
+				s->sprites = sprites_ptr;
+				// clear memro
+				memset(s->sprites + s->sprite_count, 0, sizeof(texpackr_sprite) * increment_size);
 				// update managed sprite count
 				s->msprite_count++;
 			}
@@ -170,8 +172,13 @@ bool texpackr_sheet_insert_img(texpackr_sheet* s, const char* image_filename)
 		// update sprite count
 		s->sprite_count++;
 
+		// image id is the index+1 to represent it
+		node->image_id = s->sprite_count;
+
 		// free image data
 		texpackr_free_png_image_data(image_data, img_height);
+
+		printf("[INSERT] insert %s succeeded image_id: %d\n", image_filename, node->image_id);
 
 		return true;
 	}
