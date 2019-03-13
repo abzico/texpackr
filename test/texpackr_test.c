@@ -3,8 +3,8 @@
 #include <stdbool.h>
 #include "texpackr.h"
 
-#define SHEET_MAX_WIDTH 2048
-#define SHEET_MAX_HEIGHT 2048
+#define SHEET_MAX_WIDTH 1024
+#define SHEET_MAX_HEIGHT 1024
 
 void print_all_sprites(texpackr_sheet* s)
 {
@@ -52,9 +52,13 @@ int main (int argc, char** argv)
 	if (!result)
 		fprintf(stderr, "Error inserting image 6.png\n");
 
-	result = texpackr_sheet_insert_img(sheet, "images/7.png");	// should be failed
+	result = texpackr_sheet_insert_img(sheet, "images/7.png");
 	if (!result)
 		fprintf(stderr, "Error inserting image 7.png\n");
+
+	result = texpackr_sheet_insert_img(sheet, "images/8.png");	// should be failed
+	if (!result)
+		fprintf(stderr, "Error inserting image 8.png\n");
 
 	print_all_sprites(sheet);
 
@@ -64,7 +68,7 @@ int main (int argc, char** argv)
 	print_all_sprites(sheet);
 
 	// form the array of string for using in batch insertion
-#define BATCH_IMG_SIZE 7
+#define BATCH_IMG_SIZE 8
 	char* batch_img_filenames[BATCH_IMG_SIZE] = {
 		"images/1.png",
 		"images/2.png",
@@ -72,7 +76,8 @@ int main (int argc, char** argv)
 		"images/4.png",
 		"images/5.png",
 		"images/6.png",
-		"images/7.png"	// should be failed
+		"images/7.png",
+		"images/8.png"	// should be failed
 	};
 	// batch insert
 	texpackr_sheet_batch_imgs(sheet, (const char**)&batch_img_filenames, BATCH_IMG_SIZE);
