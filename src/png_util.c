@@ -20,6 +20,20 @@ void texpackr_free_png_image_data(png_bytepp data, int height)
   free(data);
 }
 
+png_bytepp texpackr_allocate_png_rgba_image_space(int width, int height)
+{
+	// for 4 channels
+	int rowbytes = width * 4;
+	
+  png_bytepp row_ptr = (png_bytepp)malloc(sizeof(png_bytep) * height);
+  for (int y=0; y<height; ++y)
+  {
+    row_ptr[y] = (png_bytep)calloc(1, rowbytes);
+  }
+
+	return row_ptr;
+}
+
 png_bytepp texpackr_read_png_file(const char* file_name, int* rst_rowbytes, int* rst_width, int* rst_height)
 {
   // open file
