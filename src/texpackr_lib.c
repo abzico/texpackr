@@ -99,7 +99,7 @@ bool texpackr_sheet_batch_imgs(texpackr_sheet* s, const char** img_filenames, un
 		}
 		else
 		{
-			printf("[BATCH INSERT] succeeded inserting %s\n", filename);
+			fprintf(stdout, "[BATCH INSERT] succeeded inserting %s\n", filename);
 		}
 	}
 	return true;
@@ -112,7 +112,7 @@ bool texpackr_sheet_insert_img(texpackr_sheet* s, const char* image_filename)
 	int img_height = 0;
 	int img_rowbytes = 0;
 
-	printf("[INSERT] inserting %s\n", image_filename);
+	fprintf(stdout, "[INSERT] inserting %s\n", image_filename);
 
 	// read image to get its meta info and image data
 	png_bytepp image_data = texpackr_read_png_file(image_filename, &img_rowbytes, &img_width, &img_height);
@@ -178,13 +178,13 @@ bool texpackr_sheet_insert_img(texpackr_sheet* s, const char* image_filename)
 		// free image data
 		texpackr_free_png_image_data(image_data, img_height);
 
-		printf("[INSERT] insert %s succeeded image_id: %d\n", image_filename, node->image_id);
+		fprintf(stdout, "[INSERT] insert %s succeeded image_id: %d\n", image_filename, node->image_id);
 
 		return true;
 	}
 	else
 	{
-		fprintf(stderr, "INSERT %s failed\n", image_filename);
+		fprintf(stderr, "[INSERT] insert %s failed\n", image_filename);
 		// free image data
 		texpackr_free_png_image_data(image_data, img_height);
 		return false;
@@ -197,7 +197,7 @@ texpackr_node* insert_img(texpackr_node* n, int img_width, int img_height, int i
 	if (n->child[0] != NULL &&
 			n->child[1] != NULL)
 	{
-		printf("[INSERT] not at leaf node\n");
+		fprintf(stdout, "[INSERT] not at leaf node\n");
 		// try inserting into first child
 		texpackr_node* new_node = insert_img(n->child[0], img_width, img_height, img_rowbytes, img_data);
 		if (new_node != NULL)
@@ -208,13 +208,13 @@ texpackr_node* insert_img(texpackr_node* n, int img_width, int img_height, int i
 	}
 	else
 	{
-		printf("[INSERT] at leaf node\n");
+		fprintf(stdout, "[INSERT] at leaf node\n");
 
 		// if there's already image here, then return
 		// note: -1 means empty, not set yet
 		if (n->image_id != -1)
 		{
-			printf("[INSERT] return NULL, image_id != -1\n");
+			fprintf(stdout, "[INSERT] return NULL, image_id != -1\n");
 			return NULL;
 		}
 
@@ -226,7 +226,7 @@ texpackr_node* insert_img(texpackr_node* n, int img_width, int img_height, int i
 		if (img_width > rc_width ||
 				img_height > rc_height)
 		{
-			printf("[INSERT] return NULL, image doens't fit in this node's area\n");
+			fprintf(stdout, "[INSERT] return NULL, image doens't fit in this node's area\n");
 			return NULL;
 		}
 
@@ -234,7 +234,7 @@ texpackr_node* insert_img(texpackr_node* n, int img_width, int img_height, int i
 		if (img_width == rc_width &&
 				img_height == rc_height)
 		{
-			printf("[INSERT] return node, perfectly fit\n");
+			fprintf(stdout, "[INSERT] return node, perfectly fit\n");
 			return n;
 		}
 
@@ -260,43 +260,43 @@ texpackr_node* insert_img(texpackr_node* n, int img_width, int img_height, int i
 		// temporary rect
 		texpackr_rect rect;
 
-		printf("[INSERT] dw = %d, dh = %d\n", dw, dh);
+		fprintf(stdout, "[INSERT] dw = %d, dh = %d\n", dw, dh);
 
 		if (dw > dh)
 		{
-			printf("[INSERT] split along the width\n");
+			fprintf(stdout, "[INSERT] split along the width\n");
 			
 			rect.left = rc.left;
 			rect.top = rc.top;
 			rect.right = rc.left + img_width - 1;
 			rect.bottom = rc.bottom;
 			memcpy(&(n->child[0]->rc), &rect, sizeof(texpackr_rect));
-			printf("[INSERT] split rect: %d %d %d %d\n", n->child[0]->rc.left, n->child[0]->rc.top, n->child[0]->rc.right, n->child[0]->rc.bottom);
+			fprintf(stdout, "[INSERT] split rect: %d %d %d %d\n", n->child[0]->rc.left, n->child[0]->rc.top, n->child[0]->rc.right, n->child[0]->rc.bottom);
 
 			rect.left = rc.left + img_width;
 			rect.top = rc.top;
 			rect.right = rc.right;
 			rect.bottom = rc.bottom;
 			memcpy(&(n->child[1]->rc), &rect, sizeof(texpackr_rect));
-			printf("[INSERT] split rect: %d %d %d %d\n", n->child[1]->rc.left, n->child[1]->rc.top, n->child[1]->rc.right, n->child[1]->rc.bottom);
+			fprintf(stdout, "[INSERT] split rect: %d %d %d %d\n", n->child[1]->rc.left, n->child[1]->rc.top, n->child[1]->rc.right, n->child[1]->rc.bottom);
 		}
 		else
 		{
-			printf("[INSERT] split along the height\n");
+			fprintf(stdout, "[INSERT] split along the height\n");
 
 			rect.left = rc.left;
 			rect.top = rc.top;
 			rect.right = rc.right;
 			rect.bottom = rc.top + img_height - 1;
 			memcpy(&(n->child[0]->rc), &rect, sizeof(texpackr_rect));
-			printf("[INSERT] split rect: %d %d %d %d\n", n->child[0]->rc.left, n->child[0]->rc.top, n->child[0]->rc.right, n->child[0]->rc.bottom);
+			fprintf(stdout, "[INSERT] split rect: %d %d %d %d\n", n->child[0]->rc.left, n->child[0]->rc.top, n->child[0]->rc.right, n->child[0]->rc.bottom);
 
 			rect.left = rc.left;
 			rect.top = rc.top + img_height;
 			rect.right = rc.right;
 			rect.bottom = rc.bottom;
 			memcpy(&(n->child[1]->rc), &rect, sizeof(texpackr_rect));
-			printf("[INSERT] split rect: %d %d %d %d\n", n->child[1]->rc.left, n->child[1]->rc.top, n->child[1]->rc.right, n->child[1]->rc.bottom);
+			fprintf(stdout, "[INSERT] split rect: %d %d %d %d\n", n->child[1]->rc.left, n->child[1]->rc.top, n->child[1]->rc.right, n->child[1]->rc.bottom);
 		}
 
 		// insert into first child we created
