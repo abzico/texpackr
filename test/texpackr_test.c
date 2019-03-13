@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include "texpackr.h"
 
@@ -51,7 +52,7 @@ int main (int argc, char** argv)
 	if (!result)
 		fprintf(stderr, "Error inserting image 6.png\n");
 
-	result = texpackr_sheet_insert_img(sheet, "images/7.png");
+	result = texpackr_sheet_insert_img(sheet, "images/7.png");	// should be failed
 	if (!result)
 		fprintf(stderr, "Error inserting image 7.png\n");
 
@@ -62,6 +63,22 @@ int main (int argc, char** argv)
 	texpackr_sheet_clear(sheet);
 	print_all_sprites(sheet);
 
+	// form the array of string for using in batch insertion
+#define BATCH_IMG_SIZE 7
+	char* batch_img_filenames[BATCH_IMG_SIZE] = {
+		"images/1.png",
+		"images/2.png",
+		"images/3.png",
+		"images/4.png",
+		"images/5.png",
+		"images/6.png",
+		"images/7.png"	// should be failed
+	};
+	// batch insert
+	texpackr_sheet_batch_imgs(sheet, (const char**)&batch_img_filenames, BATCH_IMG_SIZE);
+	print_all_sprites(sheet);
+
+	// done, then clear sheet
 	texpackr_sheet_free(sheet);
 	sheet = NULL;
   return 0;
