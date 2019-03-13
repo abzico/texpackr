@@ -198,8 +198,72 @@ png_bytepp texpackr_read_png_file(const char* file_name, int* rst_rowbytes, int*
   png_read_image(png_ptr, row_ptr);
 
 	// convert to 4 channels (RGBA) if channels is less than 4
-	// TODO: Add support for 1 and 2 channels
-	if (channels == 3)
+	// GRAY
+	if (channels == 1)
+	{
+		TEXPACKR_LOG("[PNG] image has %d channels, we need to convert to 4 channels\n", channels)		
+		png_bytepp convt_row_ptr = texpackr_allocate_png_rgba_image_space(width, height);
+
+		// copy from old image data to this new, copying byte value from source image to destination
+		for (int y=0; y<height; ++y)
+		{
+			png_bytep dst_row = convt_row_ptr[y];
+			png_bytep src_row = row_ptr[y];
+
+			for (int x=0; x<width; ++x)
+			{
+				png_bytep dst_pixel = &dst_row[x*4];
+				png_bytep src_pixel = &src_row[x];
+
+				// same pixel value for all 3 components (RGB)
+				png_byte pval = src_pixel[0];
+
+				dst_pixel[0] = pval;
+				dst_pixel[1] = pval;
+				dst_pixel[2] = pval;
+				dst_pixel[3] = 0xFF;
+			}
+		}
+		
+		// free source iamge data
+		texpackr_free_png_image_data(row_ptr, height);
+		// swap pointer for returning from this function
+		row_ptr = convt_row_ptr;
+	}
+	// GRAY ALPHA
+	else if (channels == 2)
+	{
+		TEXPACKR_LOG("[PNG] image has %d channels, we need to convert to 4 channels\n", channels)		
+		png_bytepp convt_row_ptr = texpackr_allocate_png_rgba_image_space(width, height);
+
+		// copy from old image data to this new, copying byte value from source image to destination
+		for (int y=0; y<height; ++y)
+		{
+			png_bytep dst_row = convt_row_ptr[y];
+			png_bytep src_row = row_ptr[y];
+
+			for (int x=0; x<width; ++x)
+			{
+				png_bytep dst_pixel = &dst_row[x*4];
+				png_bytep src_pixel = &src_row[x*2];
+
+				// same pixel value for all 3 components (RGB)
+				png_byte pval = src_pixel[0];
+
+				dst_pixel[0] = pval;
+				dst_pixel[1] = pval;
+				dst_pixel[2] = pval;
+				dst_pixel[3] = src_pixel[1];
+			}
+		}
+		
+		// free source iamge data
+		texpackr_free_png_image_data(row_ptr, height);
+		// swap pointer for returning from this function
+		row_ptr = convt_row_ptr;
+	}
+	// RGB
+	else if (channels == 3)
 	{
 		TEXPACKR_LOG("[PNG] image has %d channels, we need to convert to 4 channels\n", channels)
 		png_bytepp convt_row_ptr = (png_bytepp)malloc(sizeof(png_bytep) * height);
