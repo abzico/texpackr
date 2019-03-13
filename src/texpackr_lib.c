@@ -25,8 +25,8 @@ texpackr_sheet* texpackr_sheet_new(int max_width, int max_height)
 
 void texpackr_sheet_init_defaults(texpackr_sheet* s, int max_width, int max_height)
 {
-	s->size.x = -1;
-	s->size.y = -1;
+	s->size.x = max_width;
+	s->size.y = max_height;
 
 	s->sprite_count = 0;
 	s->sprites = NULL;
@@ -304,6 +304,13 @@ bool texpackr_sheet_export(texpackr_sheet* s, const char* sheet_filename, const 
 
 void texpackr_sheet_clear(texpackr_sheet* s)
 {
+	// save size of sheet
+	// as these info will be lost after we call texpackr_sheet_free_internals()
+	texpackr_vec2 size = s->size;
+	
 	// just call free internals
 	texpackr_sheet_free_internals(s);
+
+	// now init defaults again
+	texpackr_sheet_init_defaults(s, size.x, size.y);
 }
