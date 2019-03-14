@@ -1,6 +1,8 @@
 #ifndef TEXPACKR_TYPES_H_
 #define TEXPACKR_TYPES_H_
 
+#include "hashmap_c.h"
+
 /// vector2
 /// no need to be float, integer type is enough for us
 typedef struct
@@ -62,5 +64,17 @@ typedef struct
 	void* pixels;
 
 } texpackr_sheet;
+
+/// sheet meta holding info about sheet itself and its sprite elements in hashmap for fast-retrieval
+typedef struct
+{
+	/// number of sprite in the sheet
+	int sprite_count;
+	/// resolution of sheet image
+	texpackr_vec2 size;
+	/// sprite elements in hashmap for fast-retrieval
+	hashmapc* sprites;
+
+} texpackr_sheetmeta;
 
 #endif

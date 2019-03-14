@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include "types.h"
+#include "texpackr_meta.h"
 
 /// API for usage while building a sheet + meta file
 /*
@@ -98,6 +99,5 @@ extern void texpackr_sheet_clear(texpackr_sheet* s);
  * \return newly created image data, you need to free it via free() when you're done with it.
  */
 extern unsigned char* texpackr_extract_sprite_image_data(const char* sheetimage_filename, const char* sheet_meta_filename);
-// TODO: Return as hashmap, or actual list of texpackr_sprite
 
 #endif

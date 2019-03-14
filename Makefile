@@ -4,7 +4,7 @@ TESTDIR := test
 EXTSDIR := $(SRCDIR)/externals
 
 CC := gcc
-override CFLAGS += -std=c99 -g -Wall -I$(SRCDIR)
+override CFLAGS += -std=c99 -g -Wall -I$(SRCDIR) -I$(EXTSDIR)/hashmap_c/include
 LFLAGS = -lpng -lz
 
 DEPS :=	\
@@ -13,6 +13,7 @@ DEPS :=	\
 	$(BUILDDIR)/texpackr_cli.o	\
 	$(BUILDDIR)/texpackr_test.o	\
 	$(BUILDDIR)/treetrv.o		\
+	$(BUILDDIR)/texpackr_meta.o	\
 	$(EXTSDIR)/hashmap_c/build/libhashmapc.a
 
 .PHONY: all mkbuilddir clean lib
@@ -37,17 +38,20 @@ $(BUILDDIR)/texpackr_test.o: $(TESTDIR)/texpackr_test.c $(SRCDIR)/texpackr.h $(S
 $(BUILDDIR)/treetrv.o: $(SRCDIR)/treetrv.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(BUILDDIR)/texpackr_meta.o: $(SRCDIR)/texpackr_meta.c $(SRCDIR)/texpackr_meta.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
 $(EXTSDIR)/hashmap_c/build/libhashmapc.a:
 	# to produce .a library file
 	make lib -C $(EXTSDIR)/hashmap_c
 
 # cli output
-texpackr: $(BUILDDIR)/texpackr_lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/texpackr_cli.o $(BUILDDIR)/treetrv.o $(EXTSDIR)/hashmap_c/build/libhashmapc.a
+texpackr: $(BUILDDIR)/texpackr_lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/texpackr_cli.o $(BUILDDIR)/treetrv.o $(BUILDDIR)/texpackr_meta.o $(EXTSDIR)/hashmap_c/build/libhashmapc.a
 	$(CC) $(LFLAGS) $^ -o $@
 
 # test program output
-test: mkbuilddir $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/texpackr_lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/treetrv.o $(EXTSDIR)/hashmap_c/build/libhashmapc.a
-	$(CC) $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/texpackr_lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/treetrv.o $(LFLAGS) $(EXTSDIR)/hashmap_c/build/libhashmapc.a -o texpackr_test
+test: mkbuilddir $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/texpackr_lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/treetrv.o $(BUILDDIR)/texpackr_meta.o $(EXTSDIR)/hashmap_c/build/libhashmapc.a
+	$(CC) $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/texpackr_lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/treetrv.o $(BUILDDIR)/texpackr_meta.o $(LFLAGS) $(EXTSDIR)/hashmap_c/build/libhashmapc.a -o texpackr_test
 
 clean:
 	rm -rf $(BUILDDIR)
