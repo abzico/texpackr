@@ -39,7 +39,7 @@ texpackr: $(BUILDDIR)/texpackr_lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/texpackr
 	$(CC) $(LFLAGS) $^ -o $@
 
 test: mkbuilddir $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/texpackr_lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/treetrv.o
-	$(CC) $(LFLAGS) $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/texpackr_lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/treetrv.o -o texpackr_test
+	$(CC) $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/texpackr_lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/treetrv.o $(LFLAGS) -o texpackr_test
 
 clean:
 	rm -rf $(BUILDDIR)
