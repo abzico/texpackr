@@ -341,11 +341,6 @@ texpackr_node* insert_img(texpackr_node* n, int img_width, int img_height, int i
 	}
 }
 
-bool texpackr_sheet_export(texpackr_sheet* s, const char* sheet_filename, const char* meta_filename)
-{
-	return true;
-}
-
 void texpackr_sheet_clear(texpackr_sheet* s)
 {
 	// save size of sheet
@@ -357,4 +352,28 @@ void texpackr_sheet_clear(texpackr_sheet* s)
 
 	// now init defaults again
 	texpackr_sheet_init_defaults(s, size.x, size.y);
+}
+
+unsigned char* texpackr_sheet_get_sprite_image_data(texpackr_sheet* s, const char* image_filename)
+{
+	return NULL;
+}
+
+bool texpackr_sheet_export(texpackr_sheet* s, const char* sheet_filename, const char* meta_filename)
+{
+	// write into sheet image
+	bool result = texpackr_write_png_file(sheet_filename, s->pixels, s->size.x, s->size.y);
+	if (!result)
+	{
+		TEXPACKR_ELOG("[EXPORT] Error exporting sheet image file %s\n", sheet_filename)
+		return false;
+	}
+
+	// TODO: Export meta file
+	return true;
+}
+
+unsigned char* texpackr_extract_sprite_image_data(const char* sheetimage_filename, const char* sheet_meta_filename)
+{
+	return NULL;
 }
