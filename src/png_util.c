@@ -1,5 +1,5 @@
-#include "png_util.h"
-#include "texpackr_log.h"
+#include "texpackr/png_util.h"
+#include "texpackr/log.h"
 #include <stdio.h>
 #include <stdlib.h>
 

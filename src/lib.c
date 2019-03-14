@@ -1,7 +1,7 @@
-#include "texpackr.h"
-#include "texpackr_internal.h"
-#include "texpackr_log.h"
-#include "png_util.h"
+#include "texpackr/texpackr.h"
+#include "texpackr/internal.h"
+#include "texpackr/log.h"
+#include "texpackr/png_util.h"
 #include <stdlib.h>
 #include <string.h>
 

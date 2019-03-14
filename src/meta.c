@@ -1,4 +1,4 @@
-#include "texpackr_meta.h"
+#include "texpackr/meta.h"
 #include <stdio.h>
 #include <stdlib.h>
 

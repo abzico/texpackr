@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <png.h>
-#include "texpackr_internal.h"
-#include "texpackr_log.h"
-#include "png_util.h"
+#include "texpackr/internal.h"
+#include "texpackr/log.h"
+#include "texpackr/png_util.h"
 
 void texpackr_free_all_nodes(texpackr_node* n)
 {

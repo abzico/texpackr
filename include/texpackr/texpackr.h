@@ -2,8 +2,8 @@
 #define TEXPACKR_H_
 
 #include <stdbool.h>
-#include "types.h"
-#include "texpackr_meta.h"
+#include "texpackr/types.h"
+#include "texpackr/meta.h"
 
 /// API for usage while building a sheet + meta file
 /*

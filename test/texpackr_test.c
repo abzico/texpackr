@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "texpackr.h"
+#include "texpackr/texpackr.h"
 
 #define SHEET_MAX_WIDTH 1024
 #define SHEET_MAX_HEIGHT 1024

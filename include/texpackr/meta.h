@@ -1,7 +1,7 @@
 #ifndef TEXPACKR_META_H_
 #define TEXPACKR_META_H_
 
-#include "types.h"
+#include "texpackr/types.h"
 
 /*
  * Parse sheet's companion meta file and returned meta info included sprite elements as hashmap for fast-retrieval.
