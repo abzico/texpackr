@@ -2,68 +2,7 @@
 #define TEXPACKR_H_
 
 #include <stdbool.h>
-
-/// vector2
-/// no need to be float, integer type is enough for us
-typedef struct
-{
-	int x;
-	int y;
-} texpackr_vec2;
-
-/// sprite struct
-/// important attribute is offset, and size
-typedef struct
-{
-	/// dynamically allocate as exact number of bytes need to hold
-	/// path string
-	char* filename;
-
-	/// offset of sprite in the atlas
-	texpackr_vec2 offset;
-	/// size of sprite in the atlas
-	texpackr_vec2 size;
-	/// image data
-	/// availability depends on whether query with which function
-	/// it can contain NULL, or actual image data.
-	/// This is due to keeping memory usage as low as possible.
-	void* image_data;
-
-} texpackr_sprite;
-
-struct texpackr_node;
-
-/// sheet as top level to hold other information
-typedef struct 
-{
-	/// list of sprites in the sheet
-	texpackr_sprite* sprites;
-
-	/// number of sprite in the sheet
-	int sprite_count;
-
-	/// (internally used)
-	/// managed sprite count, available mem space for adding more sprites
-	int msprite_count;
-
-	/// resolution or image size of the sheet
-	texpackr_vec2 size;
-
-	/// (internally used)
-	struct texpackr_node* node;
-
-	/// (internally used)
-	/// opaque pointer, behind the scene it works with libpng's png_bytepp
-	///
-	/// sheet maintains this during creation phase
-	/// to reduce memory usage and a need to hold each sprite's image data.
-	/// Each sprite's image data will be put into this attribute each time
-	/// it's inserted.
-	///
-	/// pixel format is RGBA 8-bit per channel.
-	void* pixels;
-
-} texpackr_sheet;
+#include "types.h"
 
 /// API for usage while building a sheet + meta file
 /*
@@ -121,12 +60,13 @@ extern bool texpackr_sheet_insert_img(texpackr_sheet* s, const char* image_filen
 
 /*
  * Get sprite's image data from its associated image filename.
+ * The returned pointer will need to be freed via free().
  *
  * \param s sheet
  * \param image_filename image filename to get image data from
- * \return image's pixel data in 2 dimensional array of rows of image data.
+ * \return newly created image data, you need to free it via free() when you're done with it.
  */
-extern unsigned char** texpackr_sheet_get_sprite_image_data(texpackr_sheet* s, const char* image_filename);
+extern unsigned char* texpackr_sheet_get_sprite_image_data(texpackr_sheet* s, const char* image_filename);
 
 /*
  * Export sheet into image sheet, and meta file.
@@ -155,9 +95,9 @@ extern void texpackr_sheet_clear(texpackr_sheet* s);
  *
  * \param sheetimage_filename sheet image filename
  * \param sheet_meta_filename sheet meta filename
- * \return image's pixel data in 2 dimensional array of rows of image data.
+ * \return newly created image data, you need to free it via free() when you're done with it.
  */
-extern unsigned char** texpackr_extract_sprite_image_data(const char* sheetimage_filename, const char* sheet_meta_filename);
+extern unsigned char* texpackr_extract_sprite_image_data(const char* sheetimage_filename, const char* sheet_meta_filename);
 // TODO: Return as hashmap, or actual list of texpackr_sprite
 
 #endif
