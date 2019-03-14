@@ -11,15 +11,19 @@ To **not** have texpackr spits out debugging log along the way, specify `-DTEXPA
 
 * `make CFLAGS=-DTEXPACKR_NDEBUG` or `make test CFLAGS=-DTEXPACKR_NDEBUG`
 
+# Dependencies
+
+* [hashmap_c](https://github.com/haxpor/hashmap_c)
+
 # TODO
 
 ## Phase I
 - [x] packing algorithm for multiple images into a single texture atlas
 - [x] read .png (support 1-4 channels: gray, gray-alpha, RGB, and RGBA) image as input
-- [ ] save into a texture atlas as .png image
+- [x] save into a texture atlas as .png image
 - [ ] read .jpg image as input
 - [ ] save into a texture atlas as .dds image
-- [ ] save meta data into file (file extension will be decided later)
+- [ ] save meta data into file (with file extension `.tpr`)
 - [x] C API
 
 ## Phase II
