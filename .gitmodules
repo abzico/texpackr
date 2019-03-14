@@ -1,0 +1,3 @@
+[submodule "src/externals/hashmap_c"]
+	path = src/externals/hashmap_c
+	url = git@github.com:haxpor/hashmap_c.git
