@@ -129,6 +129,9 @@ int main (int argc, char** argv)
 	print_all_sprites(sheet);
 	texpackr_sheet_export(sheet, "images/sheet-gray.png", "images/sheet-gray.tpr");
 
+	// 4. parse meta
+	texpackr_parse("images/sheet-batch.tpr");
+
 CLEANUP:
 	// done, then clear sheet
 	texpackr_sheet_free(sheet);
