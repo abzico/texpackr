@@ -55,6 +55,7 @@ images/7.png 508 0 128 151
 - [x] save meta data into file (with file extension `.tpr`)
 - [x] parse meta file and get sheet + sprites info
 - [x] C API
+- [ ] command line for all major operations supported by C API
 
 ## Phase II
 - [ ] ability to scale input images then output it
