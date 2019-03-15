@@ -7,7 +7,7 @@
 #define SHEET_MAX_WIDTH 1024
 #define SHEET_MAX_HEIGHT 1024
 
-static void print_all_sprites(texpackr_sheet* s)
+static void print_all_sprites(const texpackr_sheet* s)
 {
 	if (s->sprite_count == 0)
 	{
@@ -23,9 +23,42 @@ static void print_all_sprites(texpackr_sheet* s)
 	}
 }
 
-void print_sheetmeta(texpackr_sheetmeta* meta)
+static void print_sprite(const texpackr_sprite* sp)
+{
+	printf("sprite filename: %s, offset: %d,%d, size: %d,%d\n", sp->filename, sp->offset.x, sp->offset.y, sp->size.x, sp->size.y);
+}
+
+static void print_sheetmeta(texpackr_sheetmeta* meta)
 {
 	printf("meta info: size: %d,%d , sprite count in hashmap: %d\n", meta->size.x, meta->size.y, meta->sprites->size);
+
+	// (known key)
+	// printing known keys out, most likely we will known the key before hand so...
+	const texpackr_sprite* sp = NULL;
+	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "images/1.png");
+	print_sprite(sp);
+
+	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "images/2.png");
+	print_sprite(sp);
+
+	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "images/3.png");
+	print_sprite(sp);
+
+	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "images/4.png");
+	print_sprite(sp);
+
+	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "images/5.png");
+	print_sprite(sp);
+
+	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "images/6.png");
+	print_sprite(sp);
+
+	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "images/7.png");
+	print_sprite(sp);
+
+	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "images/8.png");
+	if (sp == NULL)
+		printf("Not found sprite with key 'images/8.png'\n");
 }
 
 int main (int argc, char** argv)
