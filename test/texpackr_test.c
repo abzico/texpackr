@@ -7,7 +7,7 @@
 #define SHEET_MAX_WIDTH 1024
 #define SHEET_MAX_HEIGHT 1024
 
-void print_all_sprites(texpackr_sheet* s)
+static void print_all_sprites(texpackr_sheet* s)
 {
 	if (s->sprite_count == 0)
 	{
@@ -21,6 +21,11 @@ void print_all_sprites(texpackr_sheet* s)
 			printf("sprite[%d] filename: %s, offset: %d,%d, size: %d,%d\n", i, sprite_ptr->filename, sprite_ptr->offset.x, sprite_ptr->offset.y, sprite_ptr->size.x, sprite_ptr->size.y);
 		}
 	}
+}
+
+void print_sheetmeta(texpackr_sheetmeta* meta)
+{
+	printf("meta info: size: %d,%d , sprite count in hashmap: %d\n", meta->size.x, meta->size.y, meta->sprites->size);
 }
 
 int main (int argc, char** argv)
@@ -130,9 +135,19 @@ int main (int argc, char** argv)
 	texpackr_sheet_export(sheet, "images/sheet-gray.png", "images/sheet-gray.tpr");
 
 	// 4. parse meta
-	texpackr_parse("images/sheet-batch.tpr");
+	texpackr_sheetmeta* meta = texpackr_parse("images/sheet-batch.tpr");
+	if (meta != NULL)
+		print_sheetmeta(meta);
+
+	// clear meta
+	if (meta != NULL)
+	{
+		texpackr_sheetmeta_free(meta);
+		meta = NULL;
+	}
 
 CLEANUP:
+
 	// done, then clear sheet
 	texpackr_sheet_free(sheet);
 	sheet = NULL;
