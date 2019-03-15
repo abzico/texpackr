@@ -68,8 +68,6 @@ typedef struct
 /// sheet meta holding info about sheet itself and its sprite elements in hashmap for fast-retrieval
 typedef struct
 {
-	/// number of sprite in the sheet
-	int sprite_count;
 	/// resolution of sheet image
 	texpackr_vec2 size;
 	/// sprite elements in hashmap for fast-retrieval
