@@ -55,17 +55,7 @@ void texpackr_sheet_free_internals(texpackr_sheet* s)
 	for (int i=0; i<s->sprite_count; ++i)
 	{
 		texpackr_sprite* sprite = (s->sprites + i);
-
-		// free string
-		free(sprite->filename);
-		sprite->filename = NULL;
-
-		// free image data (if any)
-		if (sprite->image_data != NULL)
-		{
-			texpackr_free_png_image_data((png_bytepp)sprite->image_data, sprite->size.y);
-			sprite->image_data = NULL;
-		}
+		texpackr_sprite_free_internals(sprite);
 	}
 
 	// free list of sprites
@@ -180,6 +170,9 @@ bool texpackr_sheet_insert_img(texpackr_sheet* s, const char* image_filename)
 		// - size
 		sprite_ptr->size.x = img_width;
 		sprite_ptr->size.y = img_height;
+		// - image data
+		// TODO: Fix to remove image_data entirely maybe? we don't really use it across the board...
+		sprite_ptr->image_data = NULL;
 
 		// update sprite count
 		s->sprite_count++;

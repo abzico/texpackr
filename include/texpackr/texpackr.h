@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include "texpackr/types.h"
 #include "texpackr/meta.h"
+#include "texpackr/sprite.h"
 
 /// API for usage while building a sheet + meta file
 /*

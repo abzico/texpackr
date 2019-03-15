@@ -15,6 +15,7 @@ DEPS :=	\
 	$(BUILDDIR)/texpackr_test.o	\
 	$(BUILDDIR)/treetrv.o		\
 	$(BUILDDIR)/meta.o	\
+	$(BUILDDIR)/sprite.o	\
 	$(EXTSDIR)/hashmap_c/build/libhashmapc.a
 
 .PHONY: all mkbuilddir clean lib
@@ -42,17 +43,20 @@ $(BUILDDIR)/treetrv.o: $(SRCDIR)/treetrv.c
 $(BUILDDIR)/meta.o: $(SRCDIR)/meta.c $(INCLDIR)/meta.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(BUILDDIR)/sprite.o: $(SRCDIR)/sprite.c $(INCLDIR)/sprite.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
 $(EXTSDIR)/hashmap_c/build/libhashmapc.a:
 	# to produce .a library file
 	make lib -C $(EXTSDIR)/hashmap_c
 
 # cli output
-texpackr: $(BUILDDIR)/lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/cli.o $(BUILDDIR)/treetrv.o $(BUILDDIR)/meta.o $(EXTSDIR)/hashmap_c/build/libhashmapc.a
+texpackr: $(BUILDDIR)/lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/cli.o $(BUILDDIR)/treetrv.o $(BUILDDIR)/meta.o $(BUILDDIR)/sprite.o $(EXTSDIR)/hashmap_c/build/libhashmapc.a
 	$(CC) $(LFLAGS) $^ -o $@
 
 # test program output
-test: mkbuilddir $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/treetrv.o $(BUILDDIR)/meta.o $(EXTSDIR)/hashmap_c/build/libhashmapc.a
-	$(CC) $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/treetrv.o $(BUILDDIR)/meta.o $(LFLAGS) $(EXTSDIR)/hashmap_c/build/libhashmapc.a -o texpackr_test
+test: mkbuilddir $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/treetrv.o $(BUILDDIR)/meta.o $(BUILDDIR)/sprite.o $(EXTSDIR)/hashmap_c/build/libhashmapc.a
+	$(CC) $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/treetrv.o $(BUILDDIR)/meta.o $(BUILDDIR)/sprite.o $(LFLAGS) $(EXTSDIR)/hashmap_c/build/libhashmapc.a -o texpackr_test
 
 clean:
 	rm -rf $(BUILDDIR)
