@@ -1,6 +1,7 @@
 #ifndef TEXPACKR_META_H_
 #define TEXPACKR_META_H_
 
+#include <stdbool.h>
 #include "texpackr/types.h"
 
 /*
@@ -22,5 +23,14 @@ extern texpackr_sheetmeta* texpackr_sheetmeta_new();
  * Free sheet's meta structure.
  */
 extern void texpackr_sheetmeta_free(texpackr_sheetmeta* meta);
+
+/*
+ * Write meta file.
+ *
+ * \param sheet_meta_filename file name to write meta file
+ * \param s sheet used as info to write into meta file
+ * \return true if successfully write file, otherwise false returned.
+ */
+extern bool texpackr_sheetmeta_write_meta_file(const char* sheet_meta_filename, const texpackr_sheet* s);
 
 #endif

@@ -362,7 +362,14 @@ bool texpackr_sheet_export(texpackr_sheet* s, const char* sheet_filename, const 
 		return false;
 	}
 
-	// TODO: Export meta file
+	// write into meta file
+	result = texpackr_sheetmeta_write_meta_file(meta_filename, s);
+	if (!result)
+	{
+		TEXPACKR_ELOG("[EXPORT] Error exporting meta file %s\n", meta_filename)
+		return false;
+	}
+	
 	return true;
 }
 

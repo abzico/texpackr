@@ -151,7 +151,7 @@ int main (int argc, char** argv)
 		goto CLEANUP;
 	}
 	print_all_sprites(sheet);
-	texpackr_sheet_export(sheet, "images/sheet-batch.png", "images/sheet-batch.tpr");
+	texpackr_sheet_export(sheet, "images/sheet-batch.png", "images/sheet-batch-real.tpr");
 
 	// clear then we gonna test batch insert
 	texpackr_sheet_clear(sheet);
