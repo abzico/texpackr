@@ -62,3 +62,4 @@ clean:
 	rm -rf $(BUILDDIR)
 	rm -f texpackr
 	rm -f texpackr_test
+	make clean -C $(EXTSDIR)/hashmap_c
