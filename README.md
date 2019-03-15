@@ -53,6 +53,7 @@ images/7.png 508 0 128 151
 - [ ] read .jpg image as input
 - [ ] save into a texture atlas as .dds image
 - [ ] save meta data into file (with file extension `.tpr`)
+- [x] parse meta file and get sheet + sprites info
 - [x] C API
 
 ## Phase II
