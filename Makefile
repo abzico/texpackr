@@ -20,7 +20,7 @@ DEPS :=	\
 
 .PHONY: all mkbuilddir clean lib
 
-all: mkbuilddir $(DEPS) texpackr test
+all: mkbuilddir $(DEPS) texpackr
 
 mkbuilddir: 
 	@mkdir -p $(BUILDDIR)
@@ -58,8 +58,10 @@ texpackr: $(BUILDDIR)/lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/cli.o $(BUILDDIR)
 test: mkbuilddir $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/treetrv.o $(BUILDDIR)/meta.o $(BUILDDIR)/sprite.o $(EXTSDIR)/hashmap_c/build/libhashmapc.a
 	$(CC) $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/treetrv.o $(BUILDDIR)/meta.o $(BUILDDIR)/sprite.o $(LFLAGS) $(EXTSDIR)/hashmap_c/build/libhashmapc.a -o texpackr_test
 
+clean-deps:
+	make clean -C $(EXTSDIR)/hashmap_c
+
 clean:
 	rm -rf $(BUILDDIR)
 	rm -f texpackr
 	rm -f texpackr_test
-	make clean -C $(EXTSDIR)/hashmap_c
