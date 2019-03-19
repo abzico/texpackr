@@ -5,3 +5,4 @@ texpackr_test
 *.sw*
 *.o
 *.dSYM
+*.a
