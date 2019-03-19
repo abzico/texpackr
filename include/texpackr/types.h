@@ -3,13 +3,19 @@
 
 #include "hashmap_c.h"
 
-/// vector2
-/// no need to be float, integer type is enough for us
+/// vector2, integer type
 typedef struct
 {
 	int x;
 	int y;
 } texpackr_vec2;
+
+/// vector2, float type
+typedef struct
+{
+	float x;
+	float y;
+} texpackr_vec2f;
 
 /// sprite struct
 /// important attribute is offset, and size
@@ -23,6 +29,10 @@ typedef struct
 	texpackr_vec2 offset;
 	/// size of sprite in the atlas
 	texpackr_vec2 size;
+	/// min/max of texcoord u
+	texpackr_vec2f texcoord_u;
+	/// min/max of texcoord v
+	texpackr_vec2f texcoord_v;
 	/// image data
 	/// availability depends on whether query with which function
 	/// it can contain NULL, or actual image data.

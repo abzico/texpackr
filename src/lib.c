@@ -159,6 +159,9 @@ bool texpackr_sheet_insert_img(texpackr_sheet* s, const char* image_filename)
 			}
 		}
 
+		// get size of sheet
+		texpackr_vec2 s_size = s->size;
+
 		// set image's meta data into sprite
 		texpackr_sprite* sprite_ptr = s->sprites + s->sprite_count;
 		// - filename
@@ -170,6 +173,11 @@ bool texpackr_sheet_insert_img(texpackr_sheet* s, const char* image_filename)
 		// - size
 		sprite_ptr->size.x = img_width;
 		sprite_ptr->size.y = img_height;
+		// - texcoord_u & texcoord_v
+		sprite_ptr->texcoord_u.x = sprite_ptr->offset.x * 1.0f / s_size.x;
+		sprite_ptr->texcoord_u.y = (sprite_ptr->offset.x + sprite_ptr->size.x) * 1.0f / s_size.x;
+		sprite_ptr->texcoord_v.x = sprite_ptr->offset.y * 1.0f / s_size.y;
+		sprite_ptr->texcoord_v.y = (sprite_ptr->offset.y + sprite_ptr->size.y) * 1.0f / s_size.y;
 		// - image data
 		// TODO: Fix to remove image_data entirely maybe? we don't really use it across the board...
 		sprite_ptr->image_data = NULL;
