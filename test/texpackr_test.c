@@ -18,14 +18,14 @@ static void print_all_sprites(const texpackr_sheet* s)
 		for (int i=0; i<s->sprite_count; i++)
 		{
 			texpackr_sprite* sprite_ptr = s->sprites + i;
-			printf("sprite[%d] filename: %s, offset: %d,%d, size: %d,%d\n", i, sprite_ptr->filename, sprite_ptr->offset.x, sprite_ptr->offset.y, sprite_ptr->size.x, sprite_ptr->size.y);
+			printf("sprite[%d] filename: %s, offset: %d,%d, size: %d,%d, texcoord_u: %f,%f, texcoord_v: %f,%f\n", i, sprite_ptr->filename, sprite_ptr->offset.x, sprite_ptr->offset.y, sprite_ptr->size.x, sprite_ptr->size.y, sprite_ptr->texcoord_u.x, sprite_ptr->texcoord_u.y, sprite_ptr->texcoord_v.x, sprite_ptr->texcoord_v.y);
 		}
 	}
 }
 
 static void print_sprite(const texpackr_sprite* sp)
 {
-	printf("sprite filename: %s, offset: %d,%d, size: %d,%d\n", sp->filename, sp->offset.x, sp->offset.y, sp->size.x, sp->size.y);
+	printf("sprite filename: %s, offset: %d,%d, size: %d,%d, texcoord_u: %f,%f, texcoord_v: %f,%f\n", sp->filename, sp->offset.x, sp->offset.y, sp->size.x, sp->size.y, sp->texcoord_u.x, sp->texcoord_u.y, sp->texcoord_v.x, sp->texcoord_v.y);
 }
 
 static void print_sheetmeta(texpackr_sheetmeta* meta)
@@ -151,7 +151,7 @@ int main (int argc, char** argv)
 		goto CLEANUP;
 	}
 	print_all_sprites(sheet);
-	texpackr_sheet_export(sheet, "images/sheet-batch.png", "images/sheet-batch-real.tpr");
+	texpackr_sheet_export(sheet, "images/sheet-batch.png", "images/sheet-batch.tpr");
 
 	// clear then we gonna test batch insert
 	texpackr_sheet_clear(sheet);
