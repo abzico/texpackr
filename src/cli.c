@@ -40,6 +40,7 @@ void print_help_str()
 	printf("Options:\n");
 	printf("  %-14s choose which output format to export. It can be png, or dds.\n", ARGSTR(ARG_STR_INDEX_FORMAT));
 	printf("  %-14s meta output file name. If not specified, then it will use output (sheet) filename but with extension of .tpr\n", ARGSTR(ARG_STR_INDEX_META));
+	printf("  %-14s specify sheet maximum width and height in format widthxheight.\n", ARGSTR(ARG_STR_INDEX_SIZE));
 }
 
 int main(int argc, char** argv)
