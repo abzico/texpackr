@@ -71,6 +71,9 @@ test: mkbuilddir $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/lib.o $(BUILDDIR)/png_u
 static-lib: mkbuilddir $(LIB_DEPS)
 	ar rcs $(BUILDDIR)/$(OUT_STATIC_LIBNAME) $(LIB_DEPS)
 
+install: mkbuilddir texpackr
+	cp -p texpackr /usr/local/bin/texpackr
+
 clean-deps:
 	make clean -C $(EXTSDIR)/hashmap_c
 
