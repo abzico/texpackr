@@ -3,6 +3,7 @@ INCLDIR := include/texpackr
 BUILDDIR := build
 TESTDIR := test
 EXTSDIR := $(SRCDIR)/externals
+OUT_STATIC_LIBNAME := libtexpackr.a
 
 CC := gcc
 override CFLAGS += -std=c99 -g -Wall -Iinclude -I$(EXTSDIR)/hashmap_c/include
@@ -18,7 +19,15 @@ DEPS :=	\
 	$(BUILDDIR)/sprite.o	\
 	$(EXTSDIR)/hashmap_c/build/libhashmapc.a
 
-.PHONY: all mkbuilddir clean lib
+LIB_DEPS := \
+	$(BUILDDIR)/lib.o	\
+	$(BUILDDIR)/png_util.o		\
+	$(BUILDDIR)/treetrv.o		\
+	$(BUILDDIR)/meta.o	\
+	$(BUILDDIR)/sprite.o	\
+	$(EXTSDIR)/hashmap_c/build/libhashmapc.a
+
+.PHONY: all mkbuilddir clean static-lib
 
 all: mkbuilddir $(DEPS) texpackr
 
@@ -57,6 +66,10 @@ texpackr: $(BUILDDIR)/lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/cli.o $(BUILDDIR)
 # test program output
 test: mkbuilddir $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/treetrv.o $(BUILDDIR)/meta.o $(BUILDDIR)/sprite.o $(EXTSDIR)/hashmap_c/build/libhashmapc.a
 	$(CC) $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/treetrv.o $(BUILDDIR)/meta.o $(BUILDDIR)/sprite.o $(LFLAGS) $(EXTSDIR)/hashmap_c/build/libhashmapc.a -o texpackr_test
+
+# create static library
+static-lib: mkbuilddir $(LIB_DEPS)
+	ar rcs $(BUILDDIR)/$(OUT_STATIC_LIBNAME) $(LIB_DEPS)
 
 clean-deps:
 	make clean -C $(EXTSDIR)/hashmap_c
