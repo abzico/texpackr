@@ -27,9 +27,13 @@ LIB_DEPS := \
 	$(BUILDDIR)/sprite.o	\
 	$(EXTSDIR)/hashmap_c/build/libhashmapc.a
 
-.PHONY: all mkbuilddir clean static-lib
+.PHONY: all mkbuilddir clean static-lib cli lib
 
-all: mkbuilddir $(DEPS) texpackr
+all: mkbuilddir $(DEPS) texpackr test
+
+lib: mkbuilddir $(LIB_DEPS)
+	# produce static library as well
+	ar rcs $(BUILDDIR)/$(OUT_STATIC_LIBNAME) $(LIB_DEPS)
 
 mkbuilddir: 
 	@mkdir -p $(BUILDDIR)
@@ -63,13 +67,12 @@ $(EXTSDIR)/hashmap_c/build/libhashmapc.a:
 texpackr: $(BUILDDIR)/lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/cli.o $(BUILDDIR)/treetrv.o $(BUILDDIR)/meta.o $(BUILDDIR)/sprite.o $(EXTSDIR)/hashmap_c/build/libhashmapc.a
 	$(CC) $(LFLAGS) $^ -o $@
 
+# just relat to texpackr
+cli: mkbuilddir texpackr
+
 # test program output
 test: mkbuilddir $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/treetrv.o $(BUILDDIR)/meta.o $(BUILDDIR)/sprite.o $(EXTSDIR)/hashmap_c/build/libhashmapc.a
 	$(CC) $(BUILDDIR)/texpackr_test.o $(BUILDDIR)/lib.o $(BUILDDIR)/png_util.o $(BUILDDIR)/treetrv.o $(BUILDDIR)/meta.o $(BUILDDIR)/sprite.o $(LFLAGS) $(EXTSDIR)/hashmap_c/build/libhashmapc.a -o texpackr_test
-
-# create static library
-static-lib: mkbuilddir $(LIB_DEPS)
-	ar rcs $(BUILDDIR)/$(OUT_STATIC_LIBNAME) $(LIB_DEPS)
 
 install: mkbuilddir texpackr
 	cp -p texpackr /usr/local/bin/texpackr
