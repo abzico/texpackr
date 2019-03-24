@@ -35,3 +35,15 @@ config.h.*
 /test/tests.log
 /test/tests.trs
 /Makefile
+
+# executable file
+texpackr
+
+# generated file from tests program
+/assets/sheet-batch.png
+/assets/sheet-batch.tpr
+/assets/sheet-gray.png
+/assets/sheet-gray.png
+/assets/sheet-gray.tpr
+/assets/sheet.png
+/assets/sheet.tpr
