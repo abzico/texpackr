@@ -19,29 +19,11 @@ AC_PROG_MAKE_SET
 
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-lpng':
-AC_CHECK_LIB([png], [png_create_read_struct \
-                     png_create_info_struct \
-                     png_destroy_read_struct \
-                     png_jmpbuf \
-                     png_init_io \
-                     png_set_sig_bytes \
-                     png_read_info \
-                     png_get_image_width \
-                     png_get_image_height \
-                     png_get_bit_depth \
-                     png_get_color_type \
-                     png_get_interlace_type \
-                     png_get_channels \
-                     png_get_rowbytes \
-                     png_read_image \
-                     png_create_write_struct \
-                     png_destroy_write_struct \
-                     png_set_IHDR \
-                     png_write_info \
-                     png_write_image \
-                     png_write_end ])
+AC_CHECK_LIB([png], [png_read_image],,
+             [AC_MSG_ERROR([Not found libpng. Please install it on your system first])])
 # FIXME: Replace `main' with a function in `-lz':
-#AC_CHECK_LIB([z], [])
+AC_CHECK_LIB([z], [zlibVersion],,
+             [AC_MSG_ERROR([Not found libz. Please install it on your system first])])
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdlib.h string.h])
