@@ -13,7 +13,8 @@ To **not** have texpackr spits out debugging log along the way, specify `-DTEXPA
 
 # Dependencies
 
-* [hashmap_c](https://github.com/haxpor/hashmap_c) as git submodule located at `src/externals/hashmap_c`.
+* [libpng](http://www.libpng.org/pub/png/libpng.html) - installed on your system
+* [hashmap_c](https://github.com/haxpor/hashmap_c) - installed on your system.
 
 # Meta File Format
 

@@ -1,7 +1,7 @@
 #ifndef TEXPACKR_TYPES_H_
 #define TEXPACKR_TYPES_H_
 
-#include "hashmap_c.h"
+#include <hashmap_c/hashmap_c.h>
 
 /// vector2, integer type
 typedef struct
