@@ -3,13 +3,13 @@ Textures packer into texture atlas, spit out atlas, and meta data. Aim to suppor
 
 # Build
 
-* `make` - to build all included library (as object files), cli (command line program), and test program
-* `make test` - to build library (as object files), and test program
-* `make clean` - clean generated files and directory (`build` directory)
+Based on autotools.
 
-To **not** have texpackr spits out debugging log along the way, specify `-DTEXPACKR_NDEUB`
-
-* `make CFLAGS=-DTEXPACKR_NDEBUG` or `make test CFLAGS=-DTEXPACKR_NDEBUG`
+* `./autogen.sh`
+* `./configure`
+* `make`
+* (optional) `make check`
+* `make install` - then you will get executable file `texpackr`, shared and dynamic libraries along with header files necessary to develop the program.
 
 # Dependencies
 
