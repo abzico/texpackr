@@ -3,7 +3,7 @@
 
 /// ***be careful not to use this macro in statement without { } wrapping around the code
 /// as we don't to add empty while loop to project the code section
-#ifndef TEXPACKR_NDEBUG
+#ifdef TEXPACKR_DEBUG
 #define TEXPACKR_LOG(f, ...) fprintf(stdout, f, ##__VA_ARGS__);
 #define TEXPACKR_ELOG(f, ...) fprintf(stderr, f, ##__VA_ARGS__);
 #else
