@@ -18,6 +18,8 @@ texpackr_SOURCES = src/lib.c \
 									 src/sprite.c \
 									 src/treetrv.c
 
+EXTRA_DIST = README.md LICENSE autogen.sh
+
 # lib
 lib_LTLIBRARIES = libtexpackr.la
 libtexpackr_la_CFLAGS = -I./include
