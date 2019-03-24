@@ -35,30 +35,30 @@ static void print_sheetmeta(texpackr_sheetmeta* meta)
 	// (known key)
 	// printing known keys out, most likely we will known the key before hand so...
 	const texpackr_sprite* sp = NULL;
-	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "images/1.png");
+	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "assets/1.png");
 	print_sprite(sp);
 
-	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "images/2.png");
+	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "assets/2.png");
 	print_sprite(sp);
 
-	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "images/3.png");
+	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "assets/3.png");
 	print_sprite(sp);
 
-	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "images/4.png");
+	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "assets/4.png");
 	print_sprite(sp);
 
-	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "images/5.png");
+	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "assets/5.png");
 	print_sprite(sp);
 
-	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "images/6.png");
+	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "assets/6.png");
 	print_sprite(sp);
 
-	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "images/7.png");
+	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "assets/7.png");
 	print_sprite(sp);
 
-	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "images/8.png");
+	sp = (const texpackr_sprite*)hashmapc_get(meta->sprites, "assets/8.png");
 	if (sp == NULL)
-		printf("Not found sprite with key 'images/8.png'\n");
+		printf("Not found sprite with key 'assets/8.png'\n");
 }
 
 int main (int argc, char** argv)
@@ -68,56 +68,56 @@ int main (int argc, char** argv)
 
 	// 1. test individual insert
 	printf("Test individual insertion\n");
-	result = texpackr_sheet_insert_img(sheet, "images/1.png");
+	result = texpackr_sheet_insert_img(sheet, "assets/1.png");
 	if (!result)
 	{
 		fprintf(stderr, "Error inserting image1.png\n");
 		goto CLEANUP;
 	}
 
-	result = texpackr_sheet_insert_img(sheet, "images/2.png");
+	result = texpackr_sheet_insert_img(sheet, "assets/2.png");
 	if (!result)
 	{
 		fprintf(stderr, "Error inserting image2.png\n");
 		goto CLEANUP;
 	}
 
-	result = texpackr_sheet_insert_img(sheet, "images/3.png");
+	result = texpackr_sheet_insert_img(sheet, "assets/3.png");
 	if (!result)
 	{
 		fprintf(stderr, "Error inserting image3.png\n");
 		goto CLEANUP;
 	}
 	
-	result = texpackr_sheet_insert_img(sheet, "images/4.png");
+	result = texpackr_sheet_insert_img(sheet, "assets/4.png");
 	if (!result)
 	{
 		fprintf(stderr, "Error inserting image4.png\n");
 		goto CLEANUP;
 	}
 
-	result = texpackr_sheet_insert_img(sheet, "images/5.png");
+	result = texpackr_sheet_insert_img(sheet, "assets/5.png");
 	if (!result)
 	{
 		fprintf(stderr, "Error inserting image5.png\n");
 		goto CLEANUP;
 	}
 
-	result = texpackr_sheet_insert_img(sheet, "images/6.png");
+	result = texpackr_sheet_insert_img(sheet, "assets/6.png");
 	if (!result)
 	{
 		fprintf(stderr, "Error inserting image6.png\n");
 		goto CLEANUP;
 	}
 
-	result = texpackr_sheet_insert_img(sheet, "images/7.png");
+	result = texpackr_sheet_insert_img(sheet, "assets/7.png");
 	if (!result)
 	{
 		fprintf(stderr, "Error inserting image7.png\n");
 		goto CLEANUP;
 	}
 
-	result = texpackr_sheet_insert_img(sheet, "images/8.png");
+	result = texpackr_sheet_insert_img(sheet, "assets/8.png");
 	if (!result)
 	{
 		fprintf(stderr, "Error inserting image8.png\n");
@@ -125,7 +125,7 @@ int main (int argc, char** argv)
 	}
 
 	print_all_sprites(sheet);
-	texpackr_sheet_export(sheet, "images/sheet.png", "images/sheet.tpr");
+	texpackr_sheet_export(sheet, "assets/sheet.png", "assets/sheet.tpr");
 
 	// clear then we gonna test batch insert
 	texpackr_sheet_clear(sheet);
@@ -133,42 +133,42 @@ int main (int argc, char** argv)
 	// form the array of string for using in batch insertion
 #define BATCH_IMG_SIZE 8
 	char* batch_img_filenames[BATCH_IMG_SIZE] = {
-		"images/1.png",
-		"images/2.png",
-		"images/3.png",
-		"images/4.png",
-		"images/5.png",
-		"images/6.png",
-		"images/7.png",
-		"images/8.png"
+		"assets/1.png",
+		"assets/2.png",
+		"assets/3.png",
+		"assets/4.png",
+		"assets/5.png",
+		"assets/6.png",
+		"assets/7.png",
+		"assets/8.png"
 	};
 	// 2. batch insert
 	printf("Test batch insertion\n");
 	result = texpackr_sheet_batch_imgs(sheet, (const char**)&batch_img_filenames, BATCH_IMG_SIZE);
 	if (!result)
 	{
-		fprintf(stderr, "Error batch inserting images\n");
+		fprintf(stderr, "Error batch inserting assets\n");
 		goto CLEANUP;
 	}
 	print_all_sprites(sheet);
-	texpackr_sheet_export(sheet, "images/sheet-batch.png", "images/sheet-batch.tpr");
+	texpackr_sheet_export(sheet, "assets/sheet-batch.png", "assets/sheet-batch.tpr");
 
 	// clear then we gonna test batch insert
 	texpackr_sheet_clear(sheet);
 	
 	// 3. test inserting GRAY (1 channel) png image
 	printf("Test inserting GRAY format (1 channel) png image\n");
-	result = texpackr_sheet_insert_img(sheet, "images/gray.png");
+	result = texpackr_sheet_insert_img(sheet, "assets/gray.png");
 	if (!result)
 	{
 		fprintf(stderr, "Error inserting gray.png\n");
 		goto CLEANUP;
 	}
 	print_all_sprites(sheet);
-	texpackr_sheet_export(sheet, "images/sheet-gray.png", "images/sheet-gray.tpr");
+	texpackr_sheet_export(sheet, "assets/sheet-gray.png", "assets/sheet-gray.tpr");
 
 	// 4. parse meta
-	texpackr_sheetmeta* meta = texpackr_parse("images/sheet-batch.tpr");
+	texpackr_sheetmeta* meta = texpackr_parse("assets/sheet-batch.tpr");
 	if (meta != NULL)
 		print_sheetmeta(meta);
 
