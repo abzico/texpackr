@@ -4,6 +4,10 @@
 #include <stdbool.h>
 #include "texpackr/types.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*
  * Parse sheet's companion meta file and returned meta info included sprite elements as hashmap for fast-retrieval.
  *
@@ -32,5 +36,9 @@ extern void texpackr_sheetmeta_free(texpackr_sheetmeta* meta);
  * \return true if successfully write file, otherwise false returned.
  */
 extern bool texpackr_sheetmeta_write_meta_file(const char* sheet_meta_filename, const texpackr_sheet* s);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

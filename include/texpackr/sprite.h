@@ -3,6 +3,10 @@
 
 #include "texpackr/types.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*
  * Free individual sprite structure.
  *
@@ -16,5 +20,9 @@ extern void texpackr_sprite_free(texpackr_sprite* sp);
  * \param sp sprite.
  */
 extern void texpackr_sprite_free_internals(texpackr_sprite* sp);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

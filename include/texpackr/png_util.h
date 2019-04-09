@@ -4,6 +4,10 @@
 #include <png.h>
 #include <stdbool.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*
  * Free png image data.
  *
@@ -47,5 +51,9 @@ extern png_bytepp texpackr_read_png_file(const char* file_name, int* rst_rowbyte
  * \return return true if operation is successful, otherwise false is returned.
  */
 extern bool texpackr_write_png_file(const char* file_name, const png_bytepp data, int width, int height);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

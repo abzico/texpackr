@@ -1,6 +1,10 @@
 #ifndef TEXPACKR_INTERNAL_H_
 #define TEXPACKR_INTERNAL_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*
  * rectangle to represent area of each node
  */
@@ -29,5 +33,9 @@ struct texpackr_node
 	int image_id;
 };
 typedef struct texpackr_node texpackr_node;
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
