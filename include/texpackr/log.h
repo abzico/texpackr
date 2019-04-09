@@ -1,6 +1,10 @@
 #ifndef TEXPACKR_LOG_H_
 #define TEXPACKR_LOG_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /// ***be careful not to use this macro in statement without { } wrapping around the code
 /// as we don't to add empty while loop to project the code section
 #ifdef TEXPACKR_DEBUG
@@ -9,6 +13,10 @@
 #else
 #define TEXPACKR_LOG(f, ...)
 #define TEXPACKR_ELOG(f, ...)
+#endif
+
+#ifdef __cplusplus
+}
 #endif
 
 #endif

@@ -3,6 +3,10 @@
 
 #include <hashmap_c/hashmap_c.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /// vector2, integer type
 typedef struct
 {
@@ -84,5 +88,9 @@ typedef struct
 	hashmapc* sprites;
 
 } texpackr_sheetmeta;
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -6,6 +6,10 @@
 #include "texpackr/meta.h"
 #include "texpackr/sprite.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /// API for usage while building a sheet + meta file
 /*
  * Create a new sheet.
@@ -100,5 +104,9 @@ extern void texpackr_sheet_clear(texpackr_sheet* s);
  * \return newly created image data, you need to free it via free() when you're done with it.
  */
 extern unsigned char* texpackr_extract_sprite_image_data(const char* sheetimage_filename, const char* sheet_meta_filename);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
