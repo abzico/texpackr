@@ -11,6 +11,10 @@ Based on autotools.
 * (optional) `make check`
 * `make install` - then you will get executable file `texpackr`, shared and dynamic libraries along with header files necessary to develop the program.
 
+## ndk-build support
+
+This project has `Android.mk` build support for Android.
+
 # Dependencies
 
 * [libpng](http://www.libpng.org/pub/png/libpng.html) - installed on your system
