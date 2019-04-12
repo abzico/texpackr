@@ -1,13 +1,12 @@
 ACLOCAL_AMFLAGS = -I m4
 
-AM_CFLAGS = -Wall \
-						-std=c99 \
-						-O2 \
-						-pedantic
-
 # cli program
 bin_PROGRAMS = texpackr
-texpackr_CFLAGS = -I./include
+texpackr_CFLAGS = -Wall \
+									-std=c99 \
+									-O2 \
+									-pedantic \
+									-I./include
 texpackr_LDFLAGS = -lhashmap_c \
 									 -lpng \
 									 -lz
@@ -22,7 +21,11 @@ EXTRA_DIST = README.md LICENSE autogen.sh
 
 # lib
 lib_LTLIBRARIES = libtexpackr.la
-libtexpackr_la_CFLAGS = -I./include
+libtexpackr_la_CFLAGS = -Wall \
+												-std=c99 \
+												-O2 \
+												-pedantic \
+												-I./include
 libtexpackr_la_LDFLAGS = -no-defined -version-info 0:1:0 \
 												 -lhashmap_c \
 												 -lpng \
@@ -46,7 +49,11 @@ libtexpackr_HEADERS = include/texpackr/internal.h \
 check_PROGRAMS = test/tests
 TESTS = $(check_PROGRAMS)
 test_tests_SOURCES = test/test.c
-test_tests_CFLAGS = -I./include
+test_tests_CFLAGS = -Wall \
+										-std=c99 \
+										-O2 \
+										-pedantic \
+										-I./include
 test_tests_LDFLAGS = -ltexpackr \
 										 -lhashmap_c \
 										 -lpng \
