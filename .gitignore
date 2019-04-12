@@ -35,6 +35,7 @@ config.h.*
 /test/tests.log
 /test/tests.trs
 /Makefile
+/build
 
 # executable file
 texpackr
