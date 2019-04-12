@@ -23,7 +23,7 @@ This project has `Android.mk` build support for Android.
 To be able to use `Android.mk` to build, you need to download the following dependencies source code to your system
 
 * `libpng` - download libpng source then place at `../libpng` from this project directory, then use our [Android.mk](https://github.com/abzico/libpng-ndkbuild) by following instruction there.
-* `libhashmap_c` - clone source code from https://github.com/haxpor/hashmap_c then place at `../hashmap_c`
+* `libhashmap_c` - clone source code from [abzico/hashmap_c](https://github.com/haxpor/hashmap_c) then place at `../hashmap_c`
 
 # Meta File Format
 
