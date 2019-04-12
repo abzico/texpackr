@@ -5,11 +5,9 @@ TEXPACKR_LOCAL_PATH := $(call my-dir)
 # libpng 	- downloads libpng source code then place at ../libpng
 #  		  then use our Android.mk by placing there
 #  		  as well you need to comment out pngpriv.h for ZLIB_VERNUM != PNG_ZLIB_VERNUM
-# libvector	- clone from https://github.com/haxpor/vector_c and place at ../vector_c
 # libhashmap_c	- clone from https://github.com/haxpor/hashmap_c and place at ../hashmap_c
 #
 include $(TEXPACKR_LOCAL_PATH)/../libpng/Android.mk
-include $(TEXPACKR_LOCAL_PATH)/../vector_c/Android.mk
 include $(TEXPACKR_LOCAL_PATH)/../hashmap_c/Android.mk
 
 LOCAL_PATH := $(TEXPACKR_LOCAL_PATH)
@@ -33,7 +31,7 @@ LOCAL_SRC_FILES := src/cli.c \
 LOCAL_CFLAGS := -Wall -std=c99 -O2 -pedantic
 LOCAL_LDLIBS := 
 LOCAL_STATIC_LIBRARIES :=
-LOCAL_SHARED_LIBRARIES := vector hashmap_c png
+LOCAL_SHARED_LIBRARIES := hashmap_c png
 
 ifeq ($(NDK_DEBUG),1)
     cmd-strip :=
@@ -48,7 +46,7 @@ LOCAL_MODULE_FILENAME := libtexpackr
 
 LOCAL_CFLAGS := -Wall -std=c99 -O2 -pedantic
 LOCAL_LDLIBS := 
-LOCAL_STATIC_LIBRARIES := vector hashmap_c png
+LOCAL_STATIC_LIBRARIES := hashmap_c png
 LOCAL_SHARED_LIBRARIES :=
 LOCAL_EXPORT_LDLIBS := 
 
