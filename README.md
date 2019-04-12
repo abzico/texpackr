@@ -11,14 +11,19 @@ Based on autotools.
 * (optional) `make check`
 * `make install` - then you will get executable file `texpackr`, shared and dynamic libraries along with header files necessary to develop the program.
 
-## ndk-build support
-
-This project has `Android.mk` build support for Android.
-
 # Dependencies
 
 * [libpng](http://www.libpng.org/pub/png/libpng.html) - installed on your system
 * [hashmap_c](https://github.com/haxpor/hashmap_c) - installed on your system.
+
+## ndk-build support
+
+This project has `Android.mk` build support for Android.
+
+To be able to use `Android.mk` to build, you need to download the following dependencies source code to your system
+
+* `libpng` - download libpng source then place at `../libpng` from this project directory, then use our [Android.mk](https://github.com/abzico/libpng-ndkbuild) by following instruction there.
+* `libhashmap_c` - clone source code from https://github.com/haxpor/hashmap_c then place at `../hashmap_c`
 
 # Meta File Format
 
