@@ -50,11 +50,14 @@ libtexpackr_HEADERS = include/texpackr/internal.h \
 # tests program
 check_PROGRAMS = test/tests
 TESTS = $(check_PROGRAMS)
-test_tests_SOURCES = test/test.c
+test_tests_SOURCES = test/test_main.c \
+										 test/test.c \
+										 test/test-readfrommem.c
 test_tests_CFLAGS = -Wall \
 										-std=c99 \
 										-O2 \
 										-pedantic \
+										-I. \
 										-I./include
 test_tests_LDFLAGS = -ltexpackr \
 										 -lhashmap_c \
