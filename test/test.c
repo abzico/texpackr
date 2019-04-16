@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "texpackr/texpackr.h"
+#include <assert.h>
+#include "test_common.h"
 
 #define SHEET_MAX_WIDTH 1024
 #define SHEET_MAX_HEIGHT 1024
@@ -61,7 +62,13 @@ static void print_sheetmeta(texpackr_sheetmeta* meta)
 		printf("Not found sprite with key 'assets/8.png'\n");
 }
 
-int main (int argc, char** argv)
+static void cleanup_setnull(texpackr_sheet** sheet)
+{
+	texpackr_sheet_free(*sheet);
+	*sheet = NULL;
+}
+
+void test_common()
 {
 	bool result = false;
 	texpackr_sheet* sheet = texpackr_sheet_new(SHEET_MAX_WIDTH, SHEET_MAX_HEIGHT);
@@ -72,56 +79,64 @@ int main (int argc, char** argv)
 	if (!result)
 	{
 		fprintf(stderr, "Error inserting image1.png\n");
-		goto CLEANUP;
+    cleanup_setnull(&sheet);
+    assert(result == true);
 	}
 
 	result = texpackr_sheet_insert_img(sheet, "assets/2.png");
 	if (!result)
 	{
 		fprintf(stderr, "Error inserting image2.png\n");
-		goto CLEANUP;
+    cleanup_setnull(&sheet);
+    assert(result == true);
 	}
 
 	result = texpackr_sheet_insert_img(sheet, "assets/3.png");
 	if (!result)
 	{
 		fprintf(stderr, "Error inserting image3.png\n");
-		goto CLEANUP;
+    cleanup_setnull(&sheet);
+    assert(result == true);
 	}
 	
 	result = texpackr_sheet_insert_img(sheet, "assets/4.png");
 	if (!result)
 	{
 		fprintf(stderr, "Error inserting image4.png\n");
-		goto CLEANUP;
+    cleanup_setnull(&sheet);
+    assert(result == true);
 	}
 
 	result = texpackr_sheet_insert_img(sheet, "assets/5.png");
 	if (!result)
 	{
 		fprintf(stderr, "Error inserting image5.png\n");
-		goto CLEANUP;
+    cleanup_setnull(&sheet);
+    assert(result == true);
 	}
 
 	result = texpackr_sheet_insert_img(sheet, "assets/6.png");
 	if (!result)
 	{
 		fprintf(stderr, "Error inserting image6.png\n");
-		goto CLEANUP;
+    cleanup_setnull(&sheet);
+    assert(result == true);
 	}
 
 	result = texpackr_sheet_insert_img(sheet, "assets/7.png");
 	if (!result)
 	{
 		fprintf(stderr, "Error inserting image7.png\n");
-		goto CLEANUP;
+    cleanup_setnull(&sheet);
+    assert(result == true);
 	}
 
 	result = texpackr_sheet_insert_img(sheet, "assets/8.png");
 	if (!result)
 	{
 		fprintf(stderr, "Error inserting image8.png\n");
-		goto CLEANUP;
+    cleanup_setnull(&sheet);
+    assert(result == true);
 	}
 
 	print_all_sprites(sheet);
@@ -148,7 +163,8 @@ int main (int argc, char** argv)
 	if (!result)
 	{
 		fprintf(stderr, "Error batch inserting assets\n");
-		goto CLEANUP;
+    cleanup_setnull(&sheet);
+    assert(result == true);
 	}
 	print_all_sprites(sheet);
 	texpackr_sheet_export(sheet, "assets/sheet-batch.png", "assets/sheet-batch.tpr");
@@ -162,27 +178,25 @@ int main (int argc, char** argv)
 	if (!result)
 	{
 		fprintf(stderr, "Error inserting gray.png\n");
-		goto CLEANUP;
+    cleanup_setnull(&sheet);
+    assert(result == true);
 	}
 	print_all_sprites(sheet);
 	texpackr_sheet_export(sheet, "assets/sheet-gray.png", "assets/sheet-gray.tpr");
 
+  // clean up, no need anymore
+  cleanup_setnull(&sheet);
+
 	// 4. parse meta
 	texpackr_sheetmeta* meta = texpackr_parse("assets/sheet-batch.tpr");
-	if (meta != NULL)
-		print_sheetmeta(meta);
+  assert(meta != NULL);
 
-	// clear meta
 	if (meta != NULL)
-	{
+  {
+		print_sheetmeta(meta);
 		texpackr_sheetmeta_free(meta);
 		meta = NULL;
-	}
+  }
 
-CLEANUP:
-
-	// done, then clear sheet
-	texpackr_sheet_free(sheet);
-	sheet = NULL;
-  return 0;
+  printf("Checked test.c\n");
 }
