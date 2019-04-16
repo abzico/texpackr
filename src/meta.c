@@ -249,7 +249,8 @@ texpackr_sheetmeta* texpackr_parse_mem(const unsigned char* file_base, long file
 	// 
 	// the size allocated might be larger than need as we didn't pre-calculate size without comment lines
 	// before reading which might need more effort, we keep it simple
-	char* no_comment_lines = calloc(1, sizeof(char) * file_size);
+  // note: additional 1 byte for null-terminated character
+	char* no_comment_lines = calloc(1, sizeof(char) * (file_size+1));
 
   // offset used to keep track of byte offset for sgets()
   int offset = 0;
