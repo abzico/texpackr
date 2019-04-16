@@ -240,6 +240,130 @@ texpackr_sheetmeta* texpackr_parse(const char* sheet_meta_filename)
 	return sm;
 }
 
+texpackr_sheetmeta* texpackr_parse_mem(const unsigned char* file_base, long file_size)
+{
+	// line buffer to read line by line from the file
+	char line[256];
+	// define no-comment-lines buffer dynamically to avoid stack size limitation of 2MB
+	// yep, in case the input file size is larger than 2MB
+	// 
+	// the size allocated might be larger than need as we didn't pre-calculate size without comment lines
+	// before reading which might need more effort, we keep it simple
+	char* no_comment_lines = calloc(1, sizeof(char) * file_size);
+
+  // offset used to keep track of byte offset for sgets()
+  int offset = 0;
+
+  while (sgets(line, sizeof(line), (const char*)file_base, &offset) != NULL)
+  {
+		// ignore comment lines
+		if (strncmp(line, "#", 1) != 0)
+		{
+			// append read string into no-comment-lines buffer
+			strncat(no_comment_lines, line, strlen(line));
+		}
+  }
+
+	// create meta struct to hold read information
+	texpackr_sheetmeta* sm = texpackr_sheetmeta_new();
+	
+  // reset offset for sgets()
+	offset = 0;
+	// read width + height
+	sgets(line, sizeof(line), no_comment_lines, &offset);
+	if (sscanf(line, "%d %d", &sm->size.x, &sm->size.y) != 2)
+	{
+		TEXPACKR_ELOG("[META] error width/height of the sheet from meta file %s\n", sheet_meta_filename)
+		// free meta structure
+		texpackr_sheetmeta_free(sm);
+		sm = NULL;
+
+		// continue further at the end of function to return sm as NULL
+	}
+	
+	int sprite_count = 0;
+	// read sprite count
+	sgets(line, sizeof(line), no_comment_lines, &offset);
+	if (sscanf(line, "%d", &sprite_count) != 1)
+	{
+		TEXPACKR_ELOG("[META] error sprite count inside sheet from meta file %s\n", sheet_meta_filename)
+		// free meta structure
+		texpackr_sheetmeta_free(sm);
+		sm = NULL;
+
+		// continue further at the end of function to return sm as NULL
+	}
+
+	// temporary string to read in sprite's filename
+	char sprite_filename[255];
+	// read sprites for number of times we have known prior to this point
+	for (int i=0; i<sprite_count; ++i)
+	{
+		texpackr_vec2 read_offset;
+		texpackr_vec2 read_size;
+		texpackr_vec2f read_texcoord_u;
+		texpackr_vec2f read_texcoord_v;
+
+		// proceed through next chunk of string
+		char* chk = sgets(line, sizeof(line), no_comment_lines, &offset);
+		if (chk == NULL)
+		{
+			// should not happen
+			TEXPACKR_ELOG("[META] error reading sprite's meta info line from %s (premature error)\n", sheet_meta_filename)
+
+			// free meta structure (included all successfully added item up to this point)
+			texpackr_sheetmeta_free(sm);
+			sm = NULL;
+
+			break;
+		}
+
+		if (sscanf(line, "%s %d %d %d %d %f %f %f %f", sprite_filename, &read_offset.x, &read_offset.y, &read_size.x, &read_size.y, &read_texcoord_u.x, &read_texcoord_u.y, &read_texcoord_v.x, &read_texcoord_v.y) == 9)
+		{
+			// create a new texpackr_sprite struct to add into hashmap
+			texpackr_sprite* sprite = malloc(sizeof(texpackr_sprite));
+
+			// allocate exact space to hold filename for sprite
+			sprite->filename = malloc(sizeof(char) * (strlen(sprite_filename)+1));
+			strncpy(sprite->filename, sprite_filename, strlen(sprite_filename)+1);
+
+			// set read attribute
+			sprite->offset.x = read_offset.x;
+			sprite->offset.y = read_offset.y;
+			sprite->size.x = read_size.x;
+			sprite->size.y = read_size.y;
+			sprite->texcoord_u.x = read_texcoord_u.x;
+			sprite->texcoord_u.y = read_texcoord_u.y;
+			sprite->texcoord_v.x = read_texcoord_v.x;
+			sprite->texcoord_v.y = read_texcoord_v.y;
+
+			// no image data
+			sprite->image_data = NULL;
+
+			// add this item into hashmap using its filename as the key
+			hashmapc_insert(sm->sprites, sprite_filename, sprite);
+
+			TEXPACKR_LOG("[META] found sprite %s offset: %d,%d size: %d,%d, texcoord_u: %f,%f, texcoord_v: %f,%f\n", sprite->filename, sprite->offset.x, sprite->offset.y, sprite->size.x, sprite->size.y, sprite->texcoord_u.x, sprite->texcoord_u.y, sprite->texcoord_v.x, sprite->texcoord_v.y)
+		}
+		else
+		{
+			TEXPACKR_ELOG("[META] error reading sprite's meta info line from %s\n", sheet_meta_filename)
+
+			// free meta structure (included all successfully added item up to this point)
+			texpackr_sheetmeta_free(sm);
+			sm = NULL;
+
+			break;
+		}
+	}
+
+	// free string buffer
+	free(no_comment_lines);
+	no_comment_lines = NULL;
+
+	return sm;
+}
+
 texpackr_sheetmeta* texpackr_sheetmeta_new()
 {
 	texpackr_sheetmeta* out = malloc(sizeof(texpackr_sheetmeta));
