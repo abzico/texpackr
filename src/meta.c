@@ -201,7 +201,7 @@ texpackr_sheetmeta* texpackr_parse(const char* sheet_meta_filename)
 
 			// allocate exact space to hold filename for sprite
 			sprite->filename = malloc(sizeof(char) * (strlen(sprite_filename)+1));
-			strncpy(sprite->filename, sprite_filename, strlen(sprite_filename));
+			strncpy(sprite->filename, sprite_filename, strlen(sprite_filename)+1);
 
 			// set read attribute
 			sprite->offset.x = read_offset.x;
