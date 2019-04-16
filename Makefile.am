@@ -9,7 +9,8 @@ texpackr_CFLAGS = -Wall \
 									-I./include
 texpackr_LDFLAGS = -lhashmap_c \
 									 -lpng \
-									 -lz
+									 -lz \
+									 -lm
 texpackr_SOURCES = src/lib.c \
 									 src/cli.c \
 									 src/meta.c \
@@ -29,7 +30,8 @@ libtexpackr_la_CFLAGS = -Wall \
 libtexpackr_la_LDFLAGS = -no-defined -version-info 0:1:0 \
 												 -lhashmap_c \
 												 -lpng \
-												 -lz
+												 -lz \
+												 -lm
 libtexpackr_la_SOURCES = src/lib.c \
 												 src/meta.c \
 												 src/png_util.c \
@@ -57,4 +59,5 @@ test_tests_CFLAGS = -Wall \
 test_tests_LDFLAGS = -ltexpackr \
 										 -lhashmap_c \
 										 -lpng \
-										 -lz
+										 -lz \
+										 -lm

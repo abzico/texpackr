@@ -18,12 +18,9 @@ AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 
 # Checks for libraries.
-# FIXME: Replace `main' with a function in `-lpng':
-AC_CHECK_LIB([png], [png_read_image],,
-             [AC_MSG_ERROR([Not found libpng. Please install it on your system first])])
-# FIXME: Replace `main' with a function in `-lz':
-AC_CHECK_LIB([z], [zlibVersion],,
-             [AC_MSG_ERROR([Not found libz. Please install it on your system first])])
+AC_SEARCH_LIBS([sin], [m], [], [AC_MSG_ERROR("Unusual error. Not found libm. Make sure you have installed basic development / build package.")])
+AC_SEARCH_LIBS([zlibVersion], [z], [], [AC_MSG_ERROR("Not found libz. Please install it on your system first")])
+AC_SEARCH_LIBS([png_read_image], [png], [], [AC_MSG_ERROR("Not found libpng. Please install it on your system first")])
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdlib.h string.h])
