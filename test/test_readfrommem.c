@@ -1,7 +1,6 @@
 // test reading .ptr file from mem
 #include <stdio.h>
 #include <string.h>
-#include <assert.h>
 #include "test_common.h"
 
 static void print_sprite(const texpackr_sprite* sp)
@@ -42,10 +41,14 @@ static void print_sheetmeta(texpackr_sheetmeta* meta)
 		printf("Not found sprite with key 'assets/8.png'\n");
 }
 
-void test_readfrommem()
+int main(void)
 {
   FILE* file = fopen("assets/sheet-batch.tpr", "rb");
-  assert(file != NULL && "Cannot open .tpr file");
+  if (file == NULL)
+  {
+    fprintf(stderr, "Cannot open %s file\n", "assets/sheet-batch.tpr");
+    return 1;
+  }
 
   // find file size
   fseek(file, 0, SEEK_END);
@@ -59,7 +62,8 @@ void test_readfrommem()
     fclose(file);
     file = NULL;
 
-    assert(false && "Error reading file");
+    fprintf(stderr, "Error reading file\n");
+    return 1;
   }
   // close file
   fclose(file);
@@ -74,12 +78,16 @@ void test_readfrommem()
     // error
     fclose(file);
     file = NULL;
-    assert(meta != NULL && "texpackr_parse_mem function should not return NULL");
+    fprintf(stderr, "texpackr_parse_mem function should not return NULL");
+    return 1;
   }
 
 	// clear meta
   texpackr_sheetmeta_free(meta);
   meta = NULL;
 
+  // in turn log it into .log
   printf("Checked test-readfromem.c\n");
+
+  return 0;
 }

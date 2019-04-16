@@ -48,19 +48,24 @@ libtexpackr_HEADERS = include/texpackr/internal.h \
 									    include/texpackr/types.h
 
 # tests program
-check_PROGRAMS = test/tests
+test_common_cflags = -Wall \
+							-std=c99 \
+							-O2 \
+							-pedantic \
+							-I. \
+							-I./include
+test_common_ldflags = -ltexpackr \
+							 -lhashmap_c \
+							 -lpng \
+							 -lz \
+							 -lm
+
+check_PROGRAMS = test/test test/test_readfrommem
 TESTS = $(check_PROGRAMS)
-test_tests_SOURCES = test/test_main.c \
-										 test/test.c \
-										 test/test-readfrommem.c
-test_tests_CFLAGS = -Wall \
-										-std=c99 \
-										-O2 \
-										-pedantic \
-										-I. \
-										-I./include
-test_tests_LDFLAGS = -ltexpackr \
-										 -lhashmap_c \
-										 -lpng \
-										 -lz \
-										 -lm
+test_test_SOURCES = test/test.c
+test_test_CFLAGS = $(test_common_cflags)
+test_test_LDFLAGS = $(test_common_ldflags)
+
+test_test_readfrommem_SOURCES = test/test_readfrommem.c
+test_test_readfrommem_CFLAGS = $(test_common_cflags)
+test_test_readfrommem_LDFLAGS = $(test_common_ldflags)

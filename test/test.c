@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <assert.h>
 #include "test_common.h"
 
 #define SHEET_MAX_WIDTH 1024
@@ -68,7 +67,7 @@ static void cleanup_setnull(texpackr_sheet** sheet)
 	*sheet = NULL;
 }
 
-void test_common()
+int main(int argc, char** argv)
 {
 	bool result = false;
 	texpackr_sheet* sheet = texpackr_sheet_new(SHEET_MAX_WIDTH, SHEET_MAX_HEIGHT);
@@ -80,7 +79,7 @@ void test_common()
 	{
 		fprintf(stderr, "Error inserting image1.png\n");
     cleanup_setnull(&sheet);
-    assert(result == true);
+    return 1;
 	}
 
 	result = texpackr_sheet_insert_img(sheet, "assets/2.png");
@@ -88,7 +87,7 @@ void test_common()
 	{
 		fprintf(stderr, "Error inserting image2.png\n");
     cleanup_setnull(&sheet);
-    assert(result == true);
+    return 1;
 	}
 
 	result = texpackr_sheet_insert_img(sheet, "assets/3.png");
@@ -96,7 +95,7 @@ void test_common()
 	{
 		fprintf(stderr, "Error inserting image3.png\n");
     cleanup_setnull(&sheet);
-    assert(result == true);
+    return 1;
 	}
 	
 	result = texpackr_sheet_insert_img(sheet, "assets/4.png");
@@ -104,7 +103,7 @@ void test_common()
 	{
 		fprintf(stderr, "Error inserting image4.png\n");
     cleanup_setnull(&sheet);
-    assert(result == true);
+    return 1;
 	}
 
 	result = texpackr_sheet_insert_img(sheet, "assets/5.png");
@@ -112,7 +111,7 @@ void test_common()
 	{
 		fprintf(stderr, "Error inserting image5.png\n");
     cleanup_setnull(&sheet);
-    assert(result == true);
+    return 1;
 	}
 
 	result = texpackr_sheet_insert_img(sheet, "assets/6.png");
@@ -120,7 +119,7 @@ void test_common()
 	{
 		fprintf(stderr, "Error inserting image6.png\n");
     cleanup_setnull(&sheet);
-    assert(result == true);
+    return 1;
 	}
 
 	result = texpackr_sheet_insert_img(sheet, "assets/7.png");
@@ -128,7 +127,7 @@ void test_common()
 	{
 		fprintf(stderr, "Error inserting image7.png\n");
     cleanup_setnull(&sheet);
-    assert(result == true);
+    return 1;
 	}
 
 	result = texpackr_sheet_insert_img(sheet, "assets/8.png");
@@ -136,7 +135,7 @@ void test_common()
 	{
 		fprintf(stderr, "Error inserting image8.png\n");
     cleanup_setnull(&sheet);
-    assert(result == true);
+    return 1;
 	}
 
 	print_all_sprites(sheet);
@@ -164,7 +163,7 @@ void test_common()
 	{
 		fprintf(stderr, "Error batch inserting assets\n");
     cleanup_setnull(&sheet);
-    assert(result == true);
+    return 1;
 	}
 	print_all_sprites(sheet);
 	texpackr_sheet_export(sheet, "assets/sheet-batch.png", "assets/sheet-batch.tpr");
@@ -179,7 +178,7 @@ void test_common()
 	{
 		fprintf(stderr, "Error inserting gray.png\n");
     cleanup_setnull(&sheet);
-    assert(result == true);
+    return 1;
 	}
 	print_all_sprites(sheet);
 	texpackr_sheet_export(sheet, "assets/sheet-gray.png", "assets/sheet-gray.tpr");
@@ -189,8 +188,6 @@ void test_common()
 
 	// 4. parse meta
 	texpackr_sheetmeta* meta = texpackr_parse("assets/sheet-batch.tpr");
-  assert(meta != NULL);
-
 	if (meta != NULL)
   {
 		print_sheetmeta(meta);
@@ -198,5 +195,8 @@ void test_common()
 		meta = NULL;
   }
 
+  // to just log this text onto .log later
   printf("Checked test.c\n");
+
+  return 0;
 }
