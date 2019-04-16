@@ -52,7 +52,7 @@ void test_readfrommem()
   long file_size = ftell(file);
   fseek(file, 0, SEEK_SET);
 
-  unsigned char file_buffer[file_size+1];
+  unsigned char file_buffer[file_size];
   memset(file_buffer, 0, file_size);
   if (fread(file_buffer, file_size, 1, file) != 1)
   { // close file
