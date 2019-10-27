@@ -1,6 +1,8 @@
 # texpackr
 Textures packer into texture atlas, spit out atlas, and meta data. Aim to support .png, and .dds
 
+![texpackr screenshot](screenshot.jpg)
+
 # Build
 
 Based on autotools.
